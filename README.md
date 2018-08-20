@@ -33,4 +33,3 @@ PyStan examples includes these methods:
 ## Books
 
 * Korner-Nievergelt, F., Korner-Nievergelt, P., Roth, T., Almasi, B., Felten, S. V., & Guélat, J. (2016). Bayesian data analysis in ecology using linear models with R, BUGS and Stan. Amsterdam: Elsevier/Academic Press.
-
