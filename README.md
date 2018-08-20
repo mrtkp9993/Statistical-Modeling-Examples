@@ -37,8 +37,12 @@ StatsModels examples includes these methods:
 * Stan example models [Link](https://github.com/stan-dev/example-models/tree/master/misc)
 * Prior choices [Link](https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations)
 * Glossary of statistical terms [Link](https://www.stat.berkeley.edu/~stark/SticiGui/Text/gloss.htm)
-* R datasets [Link](https://vincentarelbundock.github.io/Rdatasets/datasets.html)
 * Salvatier J, Wiecki TV, Fonnesbeck C. (2016) Probabilistic programming in Python using PyMC3. PeerJ Computer Science 2:e55 https://doi.org/10.7717/peerj-cs.55 [Link](https://peerj.com/articles/cs-55/)
+
+## Datasets
+
+* R datasets [Link](https://vincentarelbundock.github.io/Rdatasets/datasets.html)
+* Datasets for teaching [Link](https://www.sheffield.ac.uk/mash/data)
 
 ## Books
 
