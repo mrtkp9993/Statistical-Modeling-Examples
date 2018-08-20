@@ -16,7 +16,7 @@ PyStan examples includes these methods:
 * One-way ANOVA
 * Two-way ANOVA
 
-## Helper Functions
+## Helper Functions for PyStan
 
 * Pareto smoothed importance sampling (PSIS) and PSIS leave-one-out cross-validation reference code, [Link](https://github.com/avehtari/PSIS).
 * stan_utility.py (Inference case studies in jupyter), [Link](https://github.com/betanalpha/jupyter_case_studies).
@@ -29,6 +29,7 @@ PyStan examples includes these methods:
 * Prior choices [Link](https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations)
 * Glossary of statistical terms [Link](https://www.stat.berkeley.edu/~stark/SticiGui/Text/gloss.htm)
 * R datasets [Link](https://vincentarelbundock.github.io/Rdatasets/datasets.html)
+* Salvatier J, Wiecki TV, Fonnesbeck C. (2016) Probabilistic programming in Python using PyMC3. PeerJ Computer Science 2:e55 https://doi.org/10.7717/peerj-cs.55 [Link](https://peerj.com/articles/cs-55/)
 
 ## Books
 
