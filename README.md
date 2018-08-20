@@ -1,7 +1,13 @@
 # Statistical Modelling Examples
 
+<p style="text-align: right;"><i>All we need is just <i></p>
+<img align="right" src="bayes.png" width="200px">
+
 [![Build Status](https://travis-ci.org/mrtkp9993/Statistical-Modelling-Examples.svg?branch=master)](https://travis-ci.org/mrtkp9993/Statistical-Modelling-Examples)
 [![GitHub license](https://img.shields.io/github/license/mrtkp9993/Statistical-Modelling-Examples.svg)](https://github.com/mrtkp9993/Statistical-Modelling-Examples/blob/master/LICENSE)
+
+
+---
 
 ## Examples
 
