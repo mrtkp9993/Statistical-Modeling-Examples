@@ -16,6 +16,10 @@ PyStan examples includes these methods:
 * One-way ANOVA
 * Two-way ANOVA
 
+StatsModels examples includes these methods:
+
+* Multiple linear regression with interaction terms
+
 ## Helper Functions for PyStan
 
 * Pareto smoothed importance sampling (PSIS) and PSIS leave-one-out cross-validation reference code, [Link](https://github.com/avehtari/PSIS).
