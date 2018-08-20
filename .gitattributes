@@ -1,3 +1,1 @@
-* linguist-vendored
-pystan/scripts/*.py linguist-vendored=false
-pystan/models/.stan linguist-vendored=false
+
