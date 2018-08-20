@@ -1,0 +1,3 @@
+* linguist-vendored
+examples/pystan/scripts/*.py linguist-vendored=false
+examples/pystan/models/.stan linguist-vendored=false
