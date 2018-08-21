@@ -24,6 +24,7 @@ PyStan examples includes these methods:
 StatsModels examples includes these methods:
 
 * Multiple linear regression with interaction terms
+* Poisson regression
 
 ## Helper Functions for PyStan
 
