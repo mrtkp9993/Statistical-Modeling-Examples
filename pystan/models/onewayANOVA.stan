@@ -7,14 +7,14 @@
 */
 
 data {
-	int<lower=0> N;
-	int<lower=0, upper=1> x1[N];
-	int<lower=0, upper=1> x2[N];
-	int y[N];
+  int<lower=0> N;
+  int<lower=0, upper=1> x1[N];
+  int<lower=0, upper=1> x2[N];
+  int y[N];
 }
 
 parameters {
-	real alpha;
+  real alpha;
   real beta_x1;
   real beta_x2;
   real<lower=0> sigma;
