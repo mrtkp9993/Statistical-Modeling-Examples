@@ -1,0 +1,26 @@
+---
+title: "Factor Analysis"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+
+```{r results='asis'}
+library(readr)
+bfi <- read_csv("../data/bfi.csv", 
+    col_types = cols(X1 = col_skip(), age = col_skip(), 
+        education = col_skip(), gender = col_skip()))
+kable(head(bfi))
+```
+```{r}
+library(psych)
+KMO(bfi)
+```
+```{r}
+fa.parallel(bfi)
+```
+```{r}
+bfi.fa <- fa(bfi, nfactors = 6, fm="pa", max.iter = 100)
+fa.diagram(bfi.fa)
+```
+

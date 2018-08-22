@@ -26,7 +26,8 @@ StatsModels examples includes these methods:
 * Multiple linear regression with interaction terms
 * Poisson regression
 
-rpy2 examples includes these methods:
+R examples includes these methods:
+
 * Factor analysis
 
 ## Helper Functions for PyStan
