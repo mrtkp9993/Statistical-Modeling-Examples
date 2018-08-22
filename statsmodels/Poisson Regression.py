@@ -6,23 +6,23 @@ import statsmodels.api as sm
 
 # http://staff.bath.ac.uk/pssiw/stats2/page16/page16.html
 df = pd.read_csv("data/awards.csv", index_col=0)
-df.head()
+print(df.head())
 
-df.describe()
+print(df.describe())
 
 df = pd.get_dummies(df, columns=["prog"])
 del df['prog_1']
-df.head()
+print(df.head())
 
 df['math'] = (df['math'] - np.mean(df['math']))/(2 * np.std(df['math']))
-df.head()
+print(df.head())
 
 X = np.column_stack(
     (np.ones((df.shape[0], 1)), df[['math', 'prog_2', 'prog_3']]))
 y = df['num_awards']
 
 mod = sm.formula.GLM(y, X, family=sm.families.Poisson()).fit()
-mod.summary()
+print(mod.summary())
 
 model_fitted_y = mod.fittedvalues
 model_residuals = mod.df_resid
@@ -41,3 +41,4 @@ plot_lm_1.axes[0] = sns.residplot(model_fitted_y, 'num_awards', data=df,
 plot_lm_1.axes[0].set_title('Residuals vs Fitted')
 plot_lm_1.axes[0].set_xlabel('Fitted values')
 plot_lm_1.axes[0].set_ylabel('Residuals')
+plt.show()
