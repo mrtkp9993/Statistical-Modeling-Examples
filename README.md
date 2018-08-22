@@ -26,6 +26,9 @@ StatsModels examples includes these methods:
 * Multiple linear regression with interaction terms
 * Poisson regression
 
+rpy2 examples includes these methods:
+* Factor analysis
+
 ## Helper Functions for PyStan
 
 * Pareto smoothed importance sampling (PSIS) and PSIS leave-one-out cross-validation reference code, [Link](https://github.com/avehtari/PSIS).

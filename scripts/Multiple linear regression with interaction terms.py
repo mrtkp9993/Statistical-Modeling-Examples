@@ -5,7 +5,7 @@ import seaborn as sns
 import statsmodels.api as sm
 
 # http://staff.bath.ac.uk/pssiw/stats2/page16/page16.html
-df = pd.read_csv("data/child_data.csv")
+df = pd.read_csv("../data/child_data.csv")
 print(df.head())
 
 sns.set(style="white", palette="muted", color_codes=True)

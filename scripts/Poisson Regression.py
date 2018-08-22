@@ -5,7 +5,7 @@ import seaborn as sns
 import statsmodels.api as sm
 
 # http://staff.bath.ac.uk/pssiw/stats2/page16/page16.html
-df = pd.read_csv("data/awards.csv", index_col=0)
+df = pd.read_csv("../data/awards.csv", index_col=0)
 print(df.head())
 
 print(df.describe())
