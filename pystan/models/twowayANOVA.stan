@@ -1,5 +1,5 @@
 /*
-* One-way ANOVA
+* Two-way ANOVA
 * -----------------------------------------------------
 * Copyright: Murat Koptur <muratkoptur@yandex.com>
 * Date: 17/08/2018
