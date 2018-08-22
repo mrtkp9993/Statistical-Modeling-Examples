@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-pwd
-ls
-#for f in *.py; do python "$f"; done
+cd scripts
+for f in *.py; do python "$f"; done
