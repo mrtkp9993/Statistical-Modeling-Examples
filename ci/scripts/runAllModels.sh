@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-cd ../../scripts
+cd Statistical-Modelling-Examples/scripts
 for f in *.py; do python "$f"; done
