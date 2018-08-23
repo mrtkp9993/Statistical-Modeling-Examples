@@ -1,0 +1,35 @@
+---
+title: "Correlation Analysis"
+author: "Murat Koptur"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: rmarkdown::github_document
+---
+
+```{r}
+library(ggpubr)
+library(haven)
+```
+
+```{r}
+temprate <- read_sav("../data/temprate.sav")
+head(temprate)
+```
+
+```{r}
+cor.test(temprate$temp, temprate$hrtrate, method = "pearson")
+```
+
+```{r}
+ggscatter(
+  data = temprate,
+  x = "temp",
+  y = "hrtrate",
+  add = "reg.line",
+  conf.int = TRUE,
+  cor.coef = TRUE,
+  cor.method = "pearson",
+  xlab = "Temperature",
+  ylab = "Heart Rate"
+)
+```
+

@@ -1,5 +1,7 @@
 Factor Analysis
 ================
+Murat Koptur
+23 Ağustos 2018
 
 ``` r
 library(readr)
