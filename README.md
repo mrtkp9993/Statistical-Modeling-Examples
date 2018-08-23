@@ -30,11 +30,6 @@ R examples includes these methods:
 
 * Factor analysis [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Factor_Analysis.md).
 
-## Helper Functions for PyStan
-
-* Pareto smoothed importance sampling (PSIS) and PSIS leave-one-out cross-validation reference code, [Link](https://github.com/avehtari/PSIS).
-* stan_utility.py (Inference case studies in jupyter), [Link](https://github.com/betanalpha/jupyter_case_studies).
-
 ## Useful Resources
 
 ### Statistics
