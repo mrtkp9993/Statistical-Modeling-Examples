@@ -24,8 +24,8 @@ PyStan examples includes these methods:
 R examples includes these methods:
 
 * Factor analysis [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Factor_Analysis.md).
-* Correlation analysis [Markdown]().
-* Multiple Linear Regression with interaction terms [Markdown]().
+* Correlation analysis [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Correlation_Analysis.md).
+* Multiple Linear Regression with interaction terms [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Multiple_Linear_Regression_with_interaction_terms.md).
 
 ## Useful Resources
 
