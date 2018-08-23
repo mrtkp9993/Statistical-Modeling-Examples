@@ -1,0 +1,48 @@
+---
+title: "Multiple Linear Regression with interaction terms"
+author: "Murat Koptur"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: rmarkdown::github_document
+---
+
+```{r}
+library(GGally) 
+library(ggplot2)
+library(readr)
+library(reshape2)
+```
+
+```{r}
+child_data <- read_csv("../data/child_data.csv")
+head(child_data)
+```
+
+```{r}
+child_data_melted <- melt(child_data)
+head(child_data_melted)
+
+ggplot(data = child_data_melted, aes(x = value)) + 
+  geom_histogram(aes(y = ..ncount..)) + 
+  geom_density(aes(y = ..scaled..)) + 
+  facet_wrap(~variable, scales = "free") +
+  labs(x = "Values", y = "Frequencies", title = "Histograms")
+```
+
+```{r}
+ggpairs(child_data)
+```
+
+```{r}
+child_data_scaled <- scale(child_data)
+head(child_data_scaled)
+
+model1 <- lm(read_ab ~ age + iq, data = as.data.frame(child_data_scaled))
+summary(model1)
+
+model2 <- lm(read_ab ~ age + mem_span, data = as.data.frame(child_data_scaled))
+summary(model2)
+
+model3 <- lm(read_ab ~ age + iq + age:iq, data = as.data.frame(child_data_scaled))
+summary(model3)
+```
+

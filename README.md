@@ -21,14 +21,11 @@ PyStan examples includes these methods:
 * One-way ANOVA [Model](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/models/onewayANOVA.stan), [Script](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/scripts/onewayANOVA.py).
 * Two-way ANOVA [Model](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/models/twowayANOVA.stan), [Script](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/scripts/twowayANOVA.py).
 
-StatsModels examples includes these methods:
-
-* Multiple linear regression with interaction terms [Script](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/scripts/Multiple%20linear%20regression%20with%20interaction%20terms.py).
-* Poisson regression [Script](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/scripts/Poisson%20Regression.py).
-
 R examples includes these methods:
 
 * Factor analysis [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Factor_Analysis.md).
+* Correlation analysis [Markdown]().
+* Multiple Linear Regression with interaction terms [Markdown]().
 
 ## Useful Resources
 
