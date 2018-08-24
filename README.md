@@ -3,7 +3,7 @@
 <p align="right">All we need is just</p>
 <img align="right" src="bayes.png" width="200px">
 
-[![Build Status](https://travis-ci.org/mrtkp9993/Statistical-Modelling-Examples.svg?branch=master)](https://travis-ci.org/mrtkp9993/Statistical-Modelling-Examples)
+[![Build Status](https://travis-ci.org/mrtkp9993/Statistical-Modeling-Examples.svg?branch=master)](https://travis-ci.org/mrtkp9993/Statistical-Modeling-Examples)
 [![GitHub license](https://img.shields.io/github/license/mrtkp9993/Statistical-Modelling-Examples.svg)](https://github.com/mrtkp9993/Statistical-Modelling-Examples/blob/master/LICENSE)
 
 ---
