@@ -1,7 +1,7 @@
 Correlation Analysis
 ================
 Murat Koptur
-23 Ağustos 2018
+24 Ağustos 2018
 
 ``` r
 library(ggpubr)
@@ -60,4 +60,4 @@ ggscatter(
 )
 ```
 
-![](Correlation_Analysis_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](figures/corr-unnamed-chunk-5-1.png)

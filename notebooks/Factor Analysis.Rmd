@@ -4,6 +4,11 @@ author: "Murat Koptur"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: rmarkdown::github_document
 ---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(fig.path='figures/factor-')
+```
+
 ```{r}
 library(readr)
 library(knitr)

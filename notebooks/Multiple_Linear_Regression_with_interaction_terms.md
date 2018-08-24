@@ -1,7 +1,7 @@
 Multiple Linear Regression with interaction terms
 ================
 Murat Koptur
-23 Ağustos 2018
+24 Ağustos 2018
 
 ``` r
 library(GGally) 
@@ -69,13 +69,13 @@ ggplot(data = child_data_melted, aes(x = value)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](Multiple_Linear_Regression_with_interaction_terms_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](figures/multipleLin-unnamed-chunk-4-1.png)
 
 ``` r
 ggpairs(child_data)
 ```
 
-![](Multiple_Linear_Regression_with_interaction_terms_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](figures/multipleLin-unnamed-chunk-5-1.png)
 
 ``` r
 child_data_scaled <- scale(child_data)

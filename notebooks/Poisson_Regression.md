@@ -91,7 +91,7 @@ ggplot(data = awards_melted, aes(x = value)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](Poisson_Regression_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](figures/poisson-unnamed-chunk-5-1.png)
 
 ``` r
 awards$math <- scale(awards$math)
@@ -135,8 +135,8 @@ model2 <- stan_glm(num_awards ~ math + prog, data = awards, family = poisson,
     ## 
     ## SAMPLING FOR MODEL 'count' NOW (CHAIN 1).
     ## 
-    ## Gradient evaluation took 0.00012 seconds
-    ## 1000 transitions using 10 leapfrog steps per transition would take 1.2 seconds.
+    ## Gradient evaluation took 0.000117 seconds
+    ## 1000 transitions using 10 leapfrog steps per transition would take 1.17 seconds.
     ## Adjust your expectations accordingly!
     ## 
     ## 
@@ -153,9 +153,9 @@ model2 <- stan_glm(num_awards ~ math + prog, data = awards, family = poisson,
     ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
     ## Iteration: 2000 / 2000 [100%]  (Sampling)
     ## 
-    ##  Elapsed Time: 0.236298 seconds (Warm-up)
-    ##                0.256971 seconds (Sampling)
-    ##                0.493269 seconds (Total)
+    ##  Elapsed Time: 0.289811 seconds (Warm-up)
+    ##                0.270276 seconds (Sampling)
+    ##                0.560087 seconds (Total)
     ## 
     ## 
     ## SAMPLING FOR MODEL 'count' NOW (CHAIN 2).
@@ -178,37 +178,12 @@ model2 <- stan_glm(num_awards ~ math + prog, data = awards, family = poisson,
     ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
     ## Iteration: 2000 / 2000 [100%]  (Sampling)
     ## 
-    ##  Elapsed Time: 0.272622 seconds (Warm-up)
-    ##                0.282284 seconds (Sampling)
-    ##                0.554906 seconds (Total)
+    ##  Elapsed Time: 0.281356 seconds (Warm-up)
+    ##                0.258399 seconds (Sampling)
+    ##                0.539755 seconds (Total)
     ## 
     ## 
     ## SAMPLING FOR MODEL 'count' NOW (CHAIN 3).
-    ## 
-    ## Gradient evaluation took 3.1e-05 seconds
-    ## 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
-    ## Adjust your expectations accordingly!
-    ## 
-    ## 
-    ## Iteration:    1 / 2000 [  0%]  (Warmup)
-    ## Iteration:  200 / 2000 [ 10%]  (Warmup)
-    ## Iteration:  400 / 2000 [ 20%]  (Warmup)
-    ## Iteration:  600 / 2000 [ 30%]  (Warmup)
-    ## Iteration:  800 / 2000 [ 40%]  (Warmup)
-    ## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-    ## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-    ## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-    ## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-    ## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-    ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-    ## Iteration: 2000 / 2000 [100%]  (Sampling)
-    ## 
-    ##  Elapsed Time: 0.280228 seconds (Warm-up)
-    ##                0.257846 seconds (Sampling)
-    ##                0.538074 seconds (Total)
-    ## 
-    ## 
-    ## SAMPLING FOR MODEL 'count' NOW (CHAIN 4).
     ## 
     ## Gradient evaluation took 3e-05 seconds
     ## 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
@@ -228,9 +203,34 @@ model2 <- stan_glm(num_awards ~ math + prog, data = awards, family = poisson,
     ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
     ## Iteration: 2000 / 2000 [100%]  (Sampling)
     ## 
-    ##  Elapsed Time: 0.256981 seconds (Warm-up)
-    ##                0.29209 seconds (Sampling)
-    ##                0.549071 seconds (Total)
+    ##  Elapsed Time: 0.273531 seconds (Warm-up)
+    ##                0.267135 seconds (Sampling)
+    ##                0.540666 seconds (Total)
+    ## 
+    ## 
+    ## SAMPLING FOR MODEL 'count' NOW (CHAIN 4).
+    ## 
+    ## Gradient evaluation took 3.1e-05 seconds
+    ## 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
+    ## Adjust your expectations accordingly!
+    ## 
+    ## 
+    ## Iteration:    1 / 2000 [  0%]  (Warmup)
+    ## Iteration:  200 / 2000 [ 10%]  (Warmup)
+    ## Iteration:  400 / 2000 [ 20%]  (Warmup)
+    ## Iteration:  600 / 2000 [ 30%]  (Warmup)
+    ## Iteration:  800 / 2000 [ 40%]  (Warmup)
+    ## Iteration: 1000 / 2000 [ 50%]  (Warmup)
+    ## Iteration: 1001 / 2000 [ 50%]  (Sampling)
+    ## Iteration: 1200 / 2000 [ 60%]  (Sampling)
+    ## Iteration: 1400 / 2000 [ 70%]  (Sampling)
+    ## Iteration: 1600 / 2000 [ 80%]  (Sampling)
+    ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
+    ## Iteration: 2000 / 2000 [100%]  (Sampling)
+    ## 
+    ##  Elapsed Time: 0.248926 seconds (Warm-up)
+    ##                0.250404 seconds (Sampling)
+    ##                0.49933 seconds (Total)
 
 ``` r
 summary(model2)
@@ -253,18 +253,18 @@ summary(model2)
     ## (Intercept)     -0.5    0.2   -0.9   -0.6   -0.5   -0.4   -0.1 
     ## math             0.3    0.1    0.2    0.3    0.3    0.4    0.5 
     ## prog2            0.5    0.2    0.0    0.3    0.5    0.6    0.9 
-    ## prog3            0.6    0.3    0.1    0.4    0.6    0.7    1.1 
+    ## prog3            0.6    0.3    0.1    0.4    0.6    0.7    1.0 
     ## mean_PPD         1.0    0.1    0.8    0.9    1.0    1.0    1.2 
-    ## log-posterior -252.2    1.4 -255.9 -252.8 -251.8 -251.1 -250.4 
+    ## log-posterior -252.2    1.4 -255.8 -252.9 -251.9 -251.1 -250.4 
     ## 
     ## Diagnostics:
     ##               mcse Rhat n_eff
-    ## (Intercept)   0.0  1.0  1650 
-    ## math          0.0  1.0  2690 
-    ## prog2         0.0  1.0  1911 
-    ## prog3         0.0  1.0  1820 
-    ## mean_PPD      0.0  1.0  3438 
-    ## log-posterior 0.0  1.0  1664 
+    ## (Intercept)   0.0  1.0  1997 
+    ## math          0.0  1.0  2485 
+    ## prog2         0.0  1.0  2291 
+    ## prog3         0.0  1.0  2054 
+    ## mean_PPD      0.0  1.0  3751 
+    ## log-posterior 0.0  1.0  1624 
     ## 
     ## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
@@ -273,19 +273,19 @@ posterior_interval(model2, prob = 0.95)
 ```
 
     ##                    2.5%      97.5%
-    ## (Intercept) -0.92868856 -0.1355184
-    ## math         0.18303731  0.4864172
-    ## prog2        0.02950207  0.9384001
-    ## prog3        0.08602003  1.0644818
+    ## (Intercept) -0.89457959 -0.1447066
+    ## math         0.18111692  0.4915252
+    ## prog2        0.03168288  0.9214785
+    ## prog3        0.07135645  1.0449510
 
 ``` r
 plot(model2, plotfun = "areas", prob = 0.95)
 ```
 
-![](Poisson_Regression_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](figures/poisson-unnamed-chunk-9-1.png)
 
 ``` r
 pp_check(model2)
 ```
 
-![](Poisson_Regression_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](figures/poisson-unnamed-chunk-10-1.png)

@@ -1,7 +1,7 @@
 Factor Analysis
 ================
 Murat Koptur
-23 Ağustos 2018
+24 Ağustos 2018
 
 ``` r
 library(readr)
@@ -83,7 +83,7 @@ KMO(bfi)
 fa.parallel(bfi)
 ```
 
-![](Factor_Analysis_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](figures/factor-unnamed-chunk-5-1.png)
 
     ## Parallel analysis suggests that the number of factors =  6  and the number of components =  6
 
@@ -97,4 +97,4 @@ bfi.fa <- fa(bfi, nfactors = 6, fm="pa", max.iter = 100)
 fa.diagram(bfi.fa)
 ```
 
-![](Factor_Analysis_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](figures/factor-unnamed-chunk-6-1.png)
