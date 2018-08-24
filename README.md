@@ -26,7 +26,7 @@ R examples includes these methods:
 * Factor analysis [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Factor_Analysis.md).
 * Correlation analysis [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Correlation_Analysis.md).
 * Multiple Linear Regression with interaction terms [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Multiple_Linear_Regression_with_interaction_terms.md).
-* Poisson Regressin [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Poisson_Regression.md).
+* Poisson Regression [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Poisson_Regression.md).
 
 ## Useful Resources
 
