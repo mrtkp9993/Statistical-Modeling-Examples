@@ -1,0 +1,58 @@
+---
+title: "Poisson Regression"
+author: "Murat Koptur"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: rmarkdown::github_document
+---
+
+```{r}
+library(bayesplot)
+library(ggplot2)
+library(readr)
+library(reshape2)
+library(rstanarm)
+```
+
+```{r}
+awards <- read_csv("../data/awards.csv",
+                   col_types = cols(id = col_skip(), prog = col_factor(levels = c("1", "2", "3"))))
+head(awards)
+```
+
+```{r}
+awards_melted <- melt(awards)
+head(awards_melted)
+```
+
+```{r}
+ggplot(data = awards_melted, aes(x = value)) + 
+  geom_histogram(aes(y = ..ncount..)) + 
+  geom_density(aes(y = ..scaled..)) + 
+  facet_wrap(~variable, scales = "free") +
+  labs(x = "Values", y = "Frequencies", title = "Histograms")
+```
+
+```{r}
+awards$math <- scale(awards$math)
+```
+
+```{r}
+model1 <- glm(num_awards ~ math + prog, data = awards, family = poisson)
+summary(model1)
+```
+
+```{r}
+model2 <- stan_glm(num_awards ~ math + prog, data = awards, family = poisson,
+                   prior = normal(0, 10), prior_intercept = normal(0, 10))
+summary(model2)
+```
+
+```{r}
+posterior_interval(model2, prob = 0.95)
+plot(model2, plotfun = "areas", prob = 0.95)
+```
+
+```{r}
+pp_check(model2)
+```
+
