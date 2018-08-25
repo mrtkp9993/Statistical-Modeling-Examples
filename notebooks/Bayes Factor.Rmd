@@ -1,0 +1,35 @@
+---
+title: "Bayes Factors"
+author: "Murat Koptur"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: rmarkdown::github_document
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(fig.path='figures/bf-')
+```
+
+```{r}
+library(haven)
+library(BayesFactor)
+```
+
+```{r}
+scents <- read_spss("../data/scents.sav")
+head(scents)
+```
+
+```{r}
+scents$diffs <- scents$noscent - scents$scent
+head(scents)
+```
+
+```{r}
+bf <- ttestBF(scents$diffs)
+bf
+```
+
+```{r}
+sprintf("Bayes factor: %f", exp(bf@bayesFactor$bf))
+```
+
