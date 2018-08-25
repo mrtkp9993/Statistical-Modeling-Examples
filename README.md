@@ -27,13 +27,15 @@ R examples includes these methods:
 * Correlation analysis [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Correlation_Analysis.md).
 * Multiple Linear Regression with interaction terms [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Multiple_Linear_Regression_with_interaction_terms.md).
 * Poisson Regression [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Poisson_Regression.md).
+* Bayes Factors [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/notebooks/Bayes_Factor.md).
 
 ## Useful Resources
 
-### Statistics
+### General
 
 * Glossary of statistical terms [Link](https://www.stat.berkeley.edu/~stark/SticiGui/Text/gloss.htm).
 * Statistical tests with Python [Link](https://machinelearningmastery.com/statistical-hypothesis-tests-in-python-cheat-sheet/).
+* Michael Betancourt: “A Conceptual Introduction to Hamiltonian Monte Carlo”, 2017; arXiv:1701.02434.
 
 ### Stan
 
