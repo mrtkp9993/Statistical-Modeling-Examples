@@ -8,6 +8,10 @@
 
 ---
 
+## Case Studies
+
+* Diabetes dataset: [Dataset info](http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/diabetes.html), [Markdown](https://github.com/mrtkp9993/Statistical-Modeling-Examples/blob/master/case_studies/Case_Study_1_-_Diabetes_dataset.md).
+
 ## Examples
 
 PyStan examples includes these methods:
