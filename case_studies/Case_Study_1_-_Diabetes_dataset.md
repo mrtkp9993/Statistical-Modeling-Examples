@@ -5,71 +5,14 @@ Murat Koptur
 
 ``` r
 library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 library(fastDummies)
 library(GGally)
-```
-
-    ## Loading required package: ggplot2
-
-    ## 
-    ## Attaching package: 'GGally'
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     nasa
-
-``` r
 library(lavaan)
-```
-
-    ## This is lavaan 0.6-2
-
-    ## lavaan is BETA software! Please report any bugs.
-
-``` r
+library(loo)
 library(magrittr)
 library(mice)
-```
-
-    ## Loading required package: lattice
-
-    ## 
-    ## Attaching package: 'mice'
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     cbind, rbind
-
-``` r
 library(psych)
-```
-
-    ## 
-    ## Attaching package: 'psych'
-
-    ## The following object is masked from 'package:lavaan':
-    ## 
-    ##     cor2cov
-
-    ## The following objects are masked from 'package:ggplot2':
-    ## 
-    ##     %+%, alpha
-
-``` r
+library(rstanarm)
 library(semPlot)
 ```
 
@@ -248,36 +191,6 @@ diabetes_imp <-
 diabetes_completed <- complete(diabetes_imp, 1)
 ```
 
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
-    ## Warning in bind_rows_(x, .id): Vectorizing 'labelled' elements may not
-    ## preserve their attributes
-
 ``` r
 # Investigate NA counts again
 colSums(is.na(diabetes_completed))
@@ -295,9 +208,6 @@ colSums(is.na(diabetes_completed))
 ggcorr(diabetes_completed, label = TRUE, label_alpha = .7)
 ```
 
-    ## Warning in ggcorr(diabetes_completed, label = TRUE, label_alpha = 0.7):
-    ## data in column(s) 'gender', 'frame' are not numeric and were ignored
-
 ![](figures/cs1-unnamed-chunk-12-1.png)
 
 ``` r
@@ -311,37 +221,37 @@ subset(as.data.frame(as.table(corr_table)), abs(Freq) > 0.5)
     ## 17  stab.glu stab.glu  1.0000000
     ## 20     glyhb stab.glu  0.7492355
     ## 33       hdl      hdl  1.0000000
-    ## 34     ratio      hdl -0.6814209
-    ## 48       hdl    ratio -0.6814209
+    ## 34     ratio      hdl -0.6826599
+    ## 48       hdl    ratio -0.6826599
     ## 49     ratio    ratio  1.0000000
     ## 62  stab.glu    glyhb  0.7492355
     ## 65     glyhb    glyhb  1.0000000
     ## 81       age      age  1.0000000
     ## 97    height   height  1.0000000
     ## 113   weight   weight  1.0000000
-    ## 118    waist   weight  0.8515395
-    ## 119      hip   weight  0.8291652
+    ## 118    waist   weight  0.8522011
+    ## 119      hip   weight  0.8307025
     ## 129    bp.1s    bp.1s  1.0000000
-    ## 130    bp.1d    bp.1s  0.6014482
-    ## 131    bp.2s    bp.1s  0.8821727
-    ## 132    bp.2d    bp.1s  0.5271511
-    ## 144    bp.1s    bp.1d  0.6014482
+    ## 130    bp.1d    bp.1s  0.6054981
+    ## 131    bp.2s    bp.1s  0.8778776
+    ## 132    bp.2d    bp.1s  0.5162788
+    ## 144    bp.1s    bp.1d  0.6054981
     ## 145    bp.1d    bp.1d  1.0000000
-    ## 146    bp.2s    bp.1d  0.5633463
-    ## 147    bp.2d    bp.1d  0.7987004
-    ## 159    bp.1s    bp.2s  0.8821727
-    ## 160    bp.1d    bp.2s  0.5633463
+    ## 146    bp.2s    bp.1d  0.5814284
+    ## 147    bp.2d    bp.1d  0.8272843
+    ## 159    bp.1s    bp.2s  0.8778776
+    ## 160    bp.1d    bp.2s  0.5814284
     ## 161    bp.2s    bp.2s  1.0000000
-    ## 162    bp.2d    bp.2s  0.5876688
-    ## 174    bp.1s    bp.2d  0.5271511
-    ## 175    bp.1d    bp.2d  0.7987004
-    ## 176    bp.2s    bp.2d  0.5876688
+    ## 162    bp.2d    bp.2s  0.5746704
+    ## 174    bp.1s    bp.2d  0.5162788
+    ## 175    bp.1d    bp.2d  0.8272843
+    ## 176    bp.2s    bp.2d  0.5746704
     ## 177    bp.2d    bp.2d  1.0000000
-    ## 188   weight    waist  0.8515395
+    ## 188   weight    waist  0.8522011
     ## 193    waist    waist  1.0000000
-    ## 194      hip    waist  0.8347156
-    ## 203   weight      hip  0.8291652
-    ## 208    waist      hip  0.8347156
+    ## 194      hip    waist  0.8341216
+    ## 203   weight      hip  0.8307025
+    ## 208    waist      hip  0.8341216
     ## 209      hip      hip  1.0000000
     ## 225 time.ppn time.ppn  1.0000000
 
@@ -445,20 +355,27 @@ diabetes_completed_subset <-
 head(diabetes_completed_subset)
 ```
 
-    ##         chol      ratio      glyhb         age        bmi waist_to_hip_rat
-    ## 1 -0.0920546 -0.5303890 -0.5706645 -0.04711384 -1.0001203       -1.6088057
-    ## 2 -0.9409962  1.3678608 -0.5126959 -1.08143433  1.3036622        1.0553190
-    ## 3  0.4664596  0.9652016 -0.4235136  0.68299474  2.9538711       -0.2917103
-    ## 4 -2.8846257  1.1377699 -0.4279726  1.23057617 -1.5264968       -0.1719744
-    ## 5  0.9356116  2.5183149  0.9498954  1.04804903 -0.1421230        2.6228377
-    ## 6  0.9132710 -0.5303890 -0.3477085 -0.77722242 -0.3418499       -0.3259206
-    ##         bp.1s      bp.1d    time.ppn gender_male frame_large frame_small
-    ## 1 -0.82984025 -1.7917755  1.24860498           0           0           0
-    ## 2 -1.09133045 -1.1285748  0.07991072           0           1           0
-    ## 3  2.30804209  0.6399603 -0.50443641           0           1           0
-    ## 4 -1.17849385 -2.4549761  0.46947547           1           1           0
-    ## 5  0.04179373 -0.2443073 -0.11487166           1           0           0
-    ## 6 -0.21969646  0.1978265 -0.45574082           1           1           0
+    ##          chol      ratio      glyhb         age        bmi
+    ## 1 -0.09319585 -0.5301616 -0.5706645 -0.04711384 -0.9973448
+    ## 2 -0.94314197  1.3678022 -0.5126959 -1.08143433  1.3055456
+    ## 3  0.46597923  0.9652036 -0.4235136  0.68299474  2.9551156
+    ## 4 -2.88907124  1.1377459 -0.4279726  1.23057617 -1.5235175
+    ## 5  0.93568630  2.5180829  0.9498954  1.04804903 -0.1396797
+    ## 6  0.91331929 -0.5301616 -0.3477085 -0.77722242 -0.3393293
+    ##   waist_to_hip_rat       bp.1s      bp.1d    time.ppn gender_male
+    ## 1       -1.6083402 -0.82988906 -1.7821860  1.25031434           0
+    ## 2        1.0550300 -1.09181790 -1.1181935  0.08200624           0
+    ## 3       -0.2916179  2.31325699  0.6524530 -0.50214781           0
+    ## 4       -0.1719158 -1.17912751 -2.4461784  0.47144227           1
+    ## 5        2.6221047  0.04320706 -0.2328703 -0.11271177           1
+    ## 6       -0.3258185 -0.21872177  0.2097913 -0.45346830           1
+    ##   frame_large frame_small
+    ## 1           0           0
+    ## 2           1           0
+    ## 3           1           0
+    ## 4           1           0
+    ## 5           0           0
+    ## 6           1           0
 
 ``` r
 # Explonatory Factor analysis
@@ -479,8 +396,6 @@ diabetes_completed_subset_fi <-
   )
 ```
 
-    ## Loading required namespace: GPArotation
-
 ``` r
 fa.diagram(diabetes_completed_subset_fi)
 ```
@@ -493,75 +408,108 @@ fl
 ```
 
     ##                    PA2   PA3   PA1   PA5   PA4   PA6
-    ## chol              0.09 -0.11  0.07  0.69 -0.14  0.11
-    ## ratio            -0.07  0.12 -0.02  0.74  0.14 -0.08
-    ## age              -0.02 -0.02  0.98  0.02 -0.01  0.00
-    ## bmi               0.06  0.80 -0.06  0.05 -0.18 -0.07
-    ## waist_to_hip_rat  0.00  0.19  0.18  0.11  0.43 -0.04
-    ## bp.1s             0.59  0.05  0.38  0.01 -0.03  0.00
-    ## bp.1d             0.96  0.01 -0.07  0.00  0.04  0.00
-    ## time.ppn         -0.08  0.02 -0.10  0.00 -0.05  0.41
-    ## gender_male       0.06 -0.11 -0.03  0.01  0.82  0.03
-    ## frame_large      -0.08  0.53  0.15 -0.08  0.31  0.12
-    ## frame_small      -0.06 -0.50 -0.03 -0.10 -0.12 -0.23
+    ## chol              0.07 -0.10  0.05  0.75 -0.12  0.09
+    ## ratio            -0.08  0.17 -0.01  0.67  0.19 -0.12
+    ## age              -0.02 -0.02  0.99  0.02 -0.01  0.00
+    ## bmi               0.06  0.84 -0.06  0.03 -0.15 -0.04
+    ## waist_to_hip_rat  0.01  0.19  0.18  0.08  0.47 -0.05
+    ## bp.1s             0.58  0.05  0.38  0.02 -0.02  0.00
+    ## bp.1d             0.98  0.01 -0.07  0.00  0.03  0.00
+    ## time.ppn         -0.09 -0.04 -0.10  0.04 -0.03  0.36
+    ## gender_male       0.06 -0.15 -0.04  0.00  0.79  0.04
+    ## frame_large      -0.07  0.49  0.15 -0.09  0.31  0.18
+    ## frame_small      -0.05 -0.42 -0.03 -0.14 -0.13 -0.29
 
 ``` r
 # Let's start to build models
-model1 <- glm('glyhb ~ .', data = diabetes_completed_subset)
+model1 <- stan_glm('glyhb ~ .', data = diabetes_completed_subset)
+```
+
+``` r
 model1
 ```
 
+    ## stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ."
+    ##  observations: 390
+    ##  predictors:   12
+    ## ------
+    ##                  Median MAD_SD
+    ## (Intercept)      0.0    0.1   
+    ## chol             0.1    0.1   
+    ## ratio            0.2    0.1   
+    ## age              0.3    0.1   
+    ## bmi              0.1    0.1   
+    ## waist_to_hip_rat 0.0    0.1   
+    ## bp.1s            0.1    0.1   
+    ## bp.1d            0.0    0.1   
+    ## time.ppn         0.1    0.0   
+    ## gender_male      0.0    0.1   
+    ## frame_large      0.0    0.1   
+    ## frame_small      0.0    0.1   
+    ## sigma            0.9    0.0   
     ## 
-    ## Call:  glm(formula = "glyhb ~ .", data = diabetes_completed_subset)
+    ## Sample avg. posterior predictive distribution of y:
+    ##          Median MAD_SD
+    ## mean_PPD 0.0    0.1   
     ## 
-    ## Coefficients:
-    ##      (Intercept)              chol             ratio               age  
-    ##        -0.003846          0.059457          0.228387          0.253278  
-    ##              bmi  waist_to_hip_rat             bp.1s             bp.1d  
-    ##         0.088498          0.044539          0.074855         -0.066098  
-    ##         time.ppn       gender_male       frame_large       frame_small  
-    ##         0.060013          0.046247         -0.065314          0.006938  
-    ## 
-    ## Degrees of Freedom: 389 Total (i.e. Null);  378 Residual
-    ## Null Deviance:       389 
-    ## Residual Deviance: 308.1     AIC: 1041
+    ## ------
+    ## For info on the priors used see help('prior_summary.stanreg').
 
 ``` r
 summary(model1)
 ```
 
     ## 
-    ## Call:
-    ## glm(formula = "glyhb ~ .", data = diabetes_completed_subset)
+    ## Model Info:
     ## 
-    ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -1.3153  -0.5017  -0.1845   0.1739   4.2943  
+    ##  function:     stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ."
+    ##  algorithm:    sampling
+    ##  priors:       see help('prior_summary')
+    ##  sample:       4000 (posterior sample size)
+    ##  observations: 390
+    ##  predictors:   12
     ## 
-    ## Coefficients:
-    ##                   Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)      -0.003846   0.080222  -0.048    0.962    
-    ## chol              0.059457   0.054717   1.087    0.278    
-    ## ratio             0.228387   0.055683   4.102 5.03e-05 ***
-    ## age               0.253278   0.057533   4.402 1.40e-05 ***
-    ## bmi               0.088498   0.057847   1.530    0.127    
-    ## waist_to_hip_rat  0.044539   0.053051   0.840    0.402    
-    ## bp.1s             0.074855   0.067489   1.109    0.268    
-    ## bp.1d            -0.066098   0.061437  -1.076    0.283    
-    ## time.ppn          0.060013   0.046532   1.290    0.198    
-    ## gender_male       0.046247   0.111149   0.416    0.678    
-    ## frame_large      -0.065314   0.124221  -0.526    0.599    
-    ## frame_small       0.006938   0.120680   0.057    0.954    
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## Estimates:
+    ##                    mean   sd     2.5%   25%    50%    75%    97.5%
+    ## (Intercept)         0.0    0.1   -0.2   -0.1    0.0    0.1    0.2 
+    ## chol                0.1    0.1   -0.1    0.0    0.1    0.1    0.2 
+    ## ratio               0.2    0.1    0.1    0.2    0.2    0.3    0.3 
+    ## age                 0.3    0.1    0.1    0.2    0.3    0.3    0.4 
+    ## bmi                 0.1    0.1    0.0    0.0    0.1    0.1    0.2 
+    ## waist_to_hip_rat    0.0    0.1   -0.1    0.0    0.0    0.1    0.2 
+    ## bp.1s               0.1    0.1   -0.1    0.0    0.1    0.1    0.2 
+    ## bp.1d               0.0    0.1   -0.2   -0.1    0.0    0.0    0.1 
+    ## time.ppn            0.1    0.0    0.0    0.0    0.1    0.1    0.1 
+    ## gender_male         0.0    0.1   -0.2    0.0    0.0    0.1    0.2 
+    ## frame_large         0.0    0.1   -0.3   -0.1    0.0    0.0    0.2 
+    ## frame_small         0.0    0.1   -0.2   -0.1    0.0    0.1    0.2 
+    ## sigma               0.9    0.0    0.8    0.9    0.9    0.9    1.0 
+    ## mean_PPD            0.0    0.1   -0.1    0.0    0.0    0.0    0.1 
+    ## log-posterior    -529.0    2.6 -534.8 -530.6 -528.6 -527.1 -524.9 
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 0.8149972)
+    ## Diagnostics:
+    ##                  mcse Rhat n_eff
+    ## (Intercept)      0.0  1.0  4000 
+    ## chol             0.0  1.0  4000 
+    ## ratio            0.0  1.0  4000 
+    ## age              0.0  1.0  4000 
+    ## bmi              0.0  1.0  4000 
+    ## waist_to_hip_rat 0.0  1.0  4000 
+    ## bp.1s            0.0  1.0  3638 
+    ## bp.1d            0.0  1.0  3939 
+    ## time.ppn         0.0  1.0  4000 
+    ## gender_male      0.0  1.0  4000 
+    ## frame_large      0.0  1.0  4000 
+    ## frame_small      0.0  1.0  4000 
+    ## sigma            0.0  1.0  4000 
+    ## mean_PPD         0.0  1.0  4000 
+    ## log-posterior    0.1  1.0  1764 
     ## 
-    ##     Null deviance: 389.00  on 389  degrees of freedom
-    ## Residual deviance: 308.07  on 378  degrees of freedom
-    ## AIC: 1040.8
-    ## 
-    ## Number of Fisher Scoring iterations: 2
+    ## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
 ``` r
 par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
@@ -572,48 +520,67 @@ plot(model1)
 
 ``` r
 model2 <-
-  glm('glyhb ~  ratio + age', data = diabetes_completed_subset)
+  stan_glm('glyhb ~  ratio + age', data = diabetes_completed_subset)
+```
+
+``` r
 model2
 ```
 
+    ## stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ratio + age"
+    ##  observations: 390
+    ##  predictors:   3
+    ## ------
+    ##             Median MAD_SD
+    ## (Intercept) 0.0    0.0   
+    ## ratio       0.3    0.0   
+    ## age         0.3    0.0   
+    ## sigma       0.9    0.0   
     ## 
-    ## Call:  glm(formula = "glyhb ~  ratio + age", data = diabetes_completed_subset)
+    ## Sample avg. posterior predictive distribution of y:
+    ##          Median MAD_SD
+    ## mean_PPD 0.0    0.1   
     ## 
-    ## Coefficients:
-    ## (Intercept)        ratio          age  
-    ##   7.612e-17    2.819e-01    2.930e-01  
-    ## 
-    ## Degrees of Freedom: 389 Total (i.e. Null);  387 Residual
-    ## Null Deviance:       389 
-    ## Residual Deviance: 314.2     AIC: 1031
+    ## ------
+    ## For info on the priors used see help('prior_summary.stanreg').
 
 ``` r
 summary(model2)
 ```
 
     ## 
-    ## Call:
-    ## glm(formula = "glyhb ~  ratio + age", data = diabetes_completed_subset)
+    ## Model Info:
     ## 
-    ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -1.4342  -0.5062  -0.1917   0.1515   4.2756  
+    ##  function:     stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ratio + age"
+    ##  algorithm:    sampling
+    ##  priors:       see help('prior_summary')
+    ##  sample:       4000 (posterior sample size)
+    ##  observations: 390
+    ##  predictors:   3
     ## 
-    ## Coefficients:
-    ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 7.612e-17  4.563e-02   0.000        1    
-    ## ratio       2.819e-01  4.631e-02   6.087 2.77e-09 ***
-    ## age         2.930e-01  4.631e-02   6.328 6.89e-10 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## Estimates:
+    ##                 mean   sd     2.5%   25%    50%    75%    97.5%
+    ## (Intercept)      0.0    0.0   -0.1    0.0    0.0    0.0    0.1 
+    ## ratio            0.3    0.0    0.2    0.3    0.3    0.3    0.4 
+    ## age              0.3    0.0    0.2    0.3    0.3    0.3    0.4 
+    ## sigma            0.9    0.0    0.8    0.9    0.9    0.9    1.0 
+    ## mean_PPD         0.0    0.1   -0.1    0.0    0.0    0.0    0.1 
+    ## log-posterior -519.3    1.4 -522.8 -520.1 -519.0 -518.3 -517.6 
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 0.8119662)
+    ## Diagnostics:
+    ##               mcse Rhat n_eff
+    ## (Intercept)   0.0  1.0  4000 
+    ## ratio         0.0  1.0  4000 
+    ## age           0.0  1.0  4000 
+    ## sigma         0.0  1.0  4000 
+    ## mean_PPD      0.0  1.0  4000 
+    ## log-posterior 0.0  1.0  1855 
     ## 
-    ##     Null deviance: 389.00  on 389  degrees of freedom
-    ## Residual deviance: 314.23  on 387  degrees of freedom
-    ## AIC: 1030.5
-    ## 
-    ## Number of Fisher Scoring iterations: 2
+    ## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
 ``` r
 par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
@@ -624,48 +591,67 @@ plot(model2)
 
 ``` r
 model3 <-
-  glm('glyhb ~ bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+  stan_glm('glyhb ~ bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+```
+
+``` r
 model3
 ```
 
+    ## stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ bmi + waist_to_hip_rat"
+    ##  observations: 390
+    ##  predictors:   3
+    ## ------
+    ##                  Median MAD_SD
+    ## (Intercept)      0.0    0.0   
+    ## bmi              0.1    0.0   
+    ## waist_to_hip_rat 0.2    0.1   
+    ## sigma            1.0    0.0   
     ## 
-    ## Call:  glm(formula = "glyhb ~ bmi + waist_to_hip_rat", data = diabetes_completed_subset)
+    ## Sample avg. posterior predictive distribution of y:
+    ##          Median MAD_SD
+    ## mean_PPD 0.0    0.1   
     ## 
-    ## Coefficients:
-    ##      (Intercept)               bmi  waist_to_hip_rat  
-    ##       -6.408e-17         1.114e-01         1.801e-01  
-    ## 
-    ## Degrees of Freedom: 389 Total (i.e. Null);  387 Residual
-    ## Null Deviance:       389 
-    ## Residual Deviance: 369.9     AIC: 1094
+    ## ------
+    ## For info on the priors used see help('prior_summary.stanreg').
 
 ``` r
 summary(model3)
 ```
 
     ## 
-    ## Call:
-    ## glm(formula = "glyhb ~ bmi + waist_to_hip_rat", data = diabetes_completed_subset)
+    ## Model Info:
     ## 
-    ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -1.2569  -0.5403  -0.2571   0.0225   4.7048  
+    ##  function:     stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ bmi + waist_to_hip_rat"
+    ##  algorithm:    sampling
+    ##  priors:       see help('prior_summary')
+    ##  sample:       4000 (posterior sample size)
+    ##  observations: 390
+    ##  predictors:   3
     ## 
-    ## Coefficients:
-    ##                    Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)      -6.408e-17  4.951e-02   0.000 1.000000    
-    ## bmi               1.114e-01  4.985e-02   2.236 0.025937 *  
-    ## waist_to_hip_rat  1.801e-01  4.985e-02   3.612 0.000343 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## Estimates:
+    ##                    mean   sd     2.5%   25%    50%    75%    97.5%
+    ## (Intercept)         0.0    0.0   -0.1    0.0    0.0    0.0    0.1 
+    ## bmi                 0.1    0.1    0.0    0.1    0.1    0.1    0.2 
+    ## waist_to_hip_rat    0.2    0.1    0.1    0.1    0.2    0.2    0.3 
+    ## sigma               1.0    0.0    0.9    1.0    1.0    1.0    1.1 
+    ## mean_PPD            0.0    0.1   -0.1    0.0    0.0    0.0    0.1 
+    ## log-posterior    -551.6    1.5 -555.3 -552.3 -551.2 -550.5 -549.8 
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 0.9558426)
+    ## Diagnostics:
+    ##                  mcse Rhat n_eff
+    ## (Intercept)      0.0  1.0  4000 
+    ## bmi              0.0  1.0  4000 
+    ## waist_to_hip_rat 0.0  1.0  4000 
+    ## sigma            0.0  1.0  4000 
+    ## mean_PPD         0.0  1.0  4000 
+    ## log-posterior    0.0  1.0  1792 
     ## 
-    ##     Null deviance: 389.00  on 389  degrees of freedom
-    ## Residual deviance: 369.91  on 387  degrees of freedom
-    ## AIC: 1094.1
-    ## 
-    ## Number of Fisher Scoring iterations: 2
+    ## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
 ``` r
 par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
@@ -676,54 +662,73 @@ plot(model3)
 
 ``` r
 model4 <-
-  glm('glyhb ~ ratio + age + bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+  stan_glm('glyhb ~ ratio + age + bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+```
+
+``` r
 model4
 ```
 
+    ## stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ratio + age + bmi + waist_to_hip_rat"
+    ##  observations: 390
+    ##  predictors:   5
+    ## ------
+    ##                  Median MAD_SD
+    ## (Intercept)      0.0    0.0   
+    ## ratio            0.3    0.0   
+    ## age              0.3    0.0   
+    ## bmi              0.1    0.0   
+    ## waist_to_hip_rat 0.0    0.1   
+    ## sigma            0.9    0.0   
     ## 
-    ## Call:  glm(formula = "glyhb ~ ratio + age + bmi + waist_to_hip_rat", 
-    ##     data = diabetes_completed_subset)
+    ## Sample avg. posterior predictive distribution of y:
+    ##          Median MAD_SD
+    ## mean_PPD 0.0    0.1   
     ## 
-    ## Coefficients:
-    ##      (Intercept)             ratio               age               bmi  
-    ##        7.305e-17         2.569e-01         2.865e-01         6.946e-02  
-    ## waist_to_hip_rat  
-    ##        3.987e-02  
-    ## 
-    ## Degrees of Freedom: 389 Total (i.e. Null);  385 Residual
-    ## Null Deviance:       389 
-    ## Residual Deviance: 311.8     AIC: 1031
+    ## ------
+    ## For info on the priors used see help('prior_summary.stanreg').
 
 ``` r
 summary(model4)
 ```
 
     ## 
-    ## Call:
-    ## glm(formula = "glyhb ~ ratio + age + bmi + waist_to_hip_rat", 
-    ##     data = diabetes_completed_subset)
+    ## Model Info:
     ## 
-    ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -1.4897  -0.4968  -0.1949   0.1741   4.3298  
+    ##  function:     stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ratio + age + bmi + waist_to_hip_rat"
+    ##  algorithm:    sampling
+    ##  priors:       see help('prior_summary')
+    ##  sample:       4000 (posterior sample size)
+    ##  observations: 390
+    ##  predictors:   5
     ## 
-    ## Coefficients:
-    ##                   Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)      7.305e-17  4.557e-02   0.000    1.000    
-    ## ratio            2.569e-01  4.853e-02   5.294 2.01e-07 ***
-    ## age              2.865e-01  4.787e-02   5.985 4.95e-09 ***
-    ## bmi              6.946e-02  4.705e-02   1.476    0.141    
-    ## waist_to_hip_rat 3.987e-02  4.879e-02   0.817    0.414    
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## Estimates:
+    ##                    mean   sd     2.5%   25%    50%    75%    97.5%
+    ## (Intercept)         0.0    0.0   -0.1    0.0    0.0    0.0    0.1 
+    ## ratio               0.3    0.0    0.2    0.2    0.3    0.3    0.4 
+    ## age                 0.3    0.0    0.2    0.3    0.3    0.3    0.4 
+    ## bmi                 0.1    0.0    0.0    0.0    0.1    0.1    0.2 
+    ## waist_to_hip_rat    0.0    0.0   -0.1    0.0    0.0    0.1    0.1 
+    ## sigma               0.9    0.0    0.8    0.9    0.9    0.9    1.0 
+    ## mean_PPD            0.0    0.1   -0.1    0.0    0.0    0.0    0.1 
+    ## log-posterior    -521.0    1.7 -525.2 -521.9 -520.6 -519.7 -518.6 
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 0.8098391)
+    ## Diagnostics:
+    ##                  mcse Rhat n_eff
+    ## (Intercept)      0.0  1.0  4000 
+    ## ratio            0.0  1.0  4000 
+    ## age              0.0  1.0  4000 
+    ## bmi              0.0  1.0  4000 
+    ## waist_to_hip_rat 0.0  1.0  4000 
+    ## sigma            0.0  1.0  4000 
+    ## mean_PPD         0.0  1.0  4000 
+    ## log-posterior    0.0  1.0  1911 
     ## 
-    ##     Null deviance: 389.00  on 389  degrees of freedom
-    ## Residual deviance: 311.79  on 385  degrees of freedom
-    ## AIC: 1031.5
-    ## 
-    ## Number of Fisher Scoring iterations: 2
+    ## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
 ``` r
 par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
@@ -734,49 +739,70 @@ plot(model4)
 
 ``` r
 model5 <-
-  glm('glyhb ~ ratio + age + bmi', data = diabetes_completed_subset)
+  stan_glm('glyhb ~ ratio + age + bmi', data = diabetes_completed_subset)
+```
+
+``` r
 model5
 ```
 
+    ## stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ratio + age + bmi"
+    ##  observations: 390
+    ##  predictors:   4
+    ## ------
+    ##             Median MAD_SD
+    ## (Intercept) 0.0    0.0   
+    ## ratio       0.3    0.0   
+    ## age         0.3    0.0   
+    ## bmi         0.1    0.0   
+    ## sigma       0.9    0.0   
     ## 
-    ## Call:  glm(formula = "glyhb ~ ratio + age + bmi", data = diabetes_completed_subset)
+    ## Sample avg. posterior predictive distribution of y:
+    ##          Median MAD_SD
+    ## mean_PPD 0.0    0.1   
     ## 
-    ## Coefficients:
-    ## (Intercept)        ratio          age          bmi  
-    ##   8.513e-17    2.647e-01    2.965e-01    7.195e-02  
-    ## 
-    ## Degrees of Freedom: 389 Total (i.e. Null);  386 Residual
-    ## Null Deviance:       389 
-    ## Residual Deviance: 312.3     AIC: 1030
+    ## ------
+    ## For info on the priors used see help('prior_summary.stanreg').
 
 ``` r
 summary(model5)
 ```
 
     ## 
-    ## Call:
-    ## glm(formula = "glyhb ~ ratio + age + bmi", data = diabetes_completed_subset)
+    ## Model Info:
     ## 
-    ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -1.4250  -0.4954  -0.1965   0.1598   4.3278  
+    ##  function:     stan_glm
+    ##  family:       gaussian [identity]
+    ##  formula:      "glyhb ~ ratio + age + bmi"
+    ##  algorithm:    sampling
+    ##  priors:       see help('prior_summary')
+    ##  sample:       4000 (posterior sample size)
+    ##  observations: 390
+    ##  predictors:   4
     ## 
-    ## Coefficients:
-    ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 8.513e-17  4.555e-02   0.000    1.000    
-    ## ratio       2.647e-01  4.756e-02   5.565 4.92e-08 ***
-    ## age         2.965e-01  4.628e-02   6.406 4.36e-10 ***
-    ## bmi         7.195e-02  4.693e-02   1.533    0.126    
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## Estimates:
+    ##                 mean   sd     2.5%   25%    50%    75%    97.5%
+    ## (Intercept)      0.0    0.0   -0.1    0.0    0.0    0.0    0.1 
+    ## ratio            0.3    0.0    0.2    0.2    0.3    0.3    0.4 
+    ## age              0.3    0.0    0.2    0.3    0.3    0.3    0.4 
+    ## bmi              0.1    0.0    0.0    0.0    0.1    0.1    0.2 
+    ## sigma            0.9    0.0    0.8    0.9    0.9    0.9    1.0 
+    ## mean_PPD         0.0    0.1   -0.1    0.0    0.0    0.0    0.1 
+    ## log-posterior -519.8    1.5 -523.4 -520.6 -519.5 -518.7 -517.8 
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 0.8091423)
+    ## Diagnostics:
+    ##               mcse Rhat n_eff
+    ## (Intercept)   0.0  1.0  4000 
+    ## ratio         0.0  1.0  4000 
+    ## age           0.0  1.0  4000 
+    ## bmi           0.0  1.0  4000 
+    ## sigma         0.0  1.0  4000 
+    ## mean_PPD      0.0  1.0  4000 
+    ## log-posterior 0.0  1.0  1941 
     ## 
-    ##     Null deviance: 389.00  on 389  degrees of freedom
-    ## Residual deviance: 312.33  on 386  degrees of freedom
-    ## AIC: 1030.2
-    ## 
-    ## Number of Fisher Scoring iterations: 2
+    ## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
 ``` r
 par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
@@ -788,19 +814,21 @@ plot(model5)
 ``` r
 ic <- data.frame(
   Model = c("model1", "model2", "model3", "model4", "model5"),
-  AIC = c(AIC(model1), AIC(model2), AIC(model3), AIC(model4), AIC(model5)),
-  BIC = c(BIC(model1), BIC(model2), BIC(model3), BIC(model4), BIC(model5)),
+  WAIC = c(waic(model1)$estimates[3,1], waic(model2)$estimates[3,1], waic(model3)$estimates[3,1], waic(model4)$estimates[3,1], waic(model5)$estimates[3,1]),
   stringsAsFactors = FALSE
 )
+```
+
+``` r
 ic
 ```
 
-    ##    Model      AIC      BIC
-    ## 1 model1 1040.801 1092.361
-    ## 2 model2 1030.525 1046.389
-    ## 3 model3 1094.147 1110.012
-    ## 4 model4 1031.481 1055.278
-    ## 5 model5 1030.157 1049.988
+    ##    Model     WAIC
+    ## 1 model1 1045.760
+    ## 2 model2 1033.905
+    ## 3 model3 1097.760
+    ## 4 model4 1035.492
+    ## 5 model5 1034.094
 
 ``` r
 # Let's build a SEM model
@@ -826,7 +854,7 @@ fit1 <- sem(semModel1,
 fit1
 ```
 
-    ## lavaan 0.6-2 ended normally after 138 iterations
+    ## lavaan 0.6-2 ended normally after 144 iterations
     ## 
     ##   Optimization method                           NLMINB
     ##   Number of free parameters                         42
@@ -834,7 +862,7 @@ fit1
     ##   Number of observations                           390
     ## 
     ##   Estimator                                         ML
-    ##   Model Fit Test Statistic                     178.800
+    ##   Model Fit Test Statistic                     178.781
     ##   Degrees of freedom                                36
     ##   P-value (Chi-square)                           0.000
 
@@ -848,7 +876,7 @@ semPaths(fit1)
 summary(fit1, standardized = TRUE, fit.measures = TRUE)
 ```
 
-    ## lavaan 0.6-2 ended normally after 138 iterations
+    ## lavaan 0.6-2 ended normally after 144 iterations
     ## 
     ##   Optimization method                           NLMINB
     ##   Number of free parameters                         42
@@ -856,30 +884,30 @@ summary(fit1, standardized = TRUE, fit.measures = TRUE)
     ##   Number of observations                           390
     ## 
     ##   Estimator                                         ML
-    ##   Model Fit Test Statistic                     178.800
+    ##   Model Fit Test Statistic                     178.781
     ##   Degrees of freedom                                36
     ##   P-value (Chi-square)                           0.000
     ## 
     ## Model test baseline model:
     ## 
-    ##   Minimum Function Test Statistic              980.331
+    ##   Minimum Function Test Statistic              974.533
     ##   Degrees of freedom                                66
     ##   P-value                                        0.000
     ## 
     ## User model versus baseline model:
     ## 
-    ##   Comparative Fit Index (CFI)                    0.844
-    ##   Tucker-Lewis Index (TLI)                       0.714
+    ##   Comparative Fit Index (CFI)                    0.843
+    ##   Tucker-Lewis Index (TLI)                       0.712
     ## 
     ## Loglikelihood and Information Criteria:
     ## 
-    ##   Loglikelihood user model (H0)              -5324.064
-    ##   Loglikelihood unrestricted model (H1)      -5234.665
+    ##   Loglikelihood user model (H0)              -5323.322
+    ##   Loglikelihood unrestricted model (H1)      -5233.931
     ## 
     ##   Number of free parameters                         42
-    ##   Akaike (AIC)                               10732.129
-    ##   Bayesian (BIC)                             10898.707
-    ##   Sample-size adjusted Bayesian (BIC)        10765.444
+    ##   Akaike (AIC)                               10730.643
+    ##   Bayesian (BIC)                             10897.222
+    ##   Sample-size adjusted Bayesian (BIC)        10763.958
     ## 
     ## Root Mean Square Error of Approximation:
     ## 
@@ -902,73 +930,73 @@ summary(fit1, standardized = TRUE, fit.measures = TRUE)
     ##   pa1 =~                                                                
     ##     age               1.000                               0.999    1.000
     ##   pa2 =~                                                                
-    ##     bp.1d             1.000                               0.335    0.335
-    ##     bp.1s             5.344    2.748    1.945    0.052    1.790    1.793
+    ##     bp.1d             1.000                               0.340    0.340
+    ##     bp.1s             5.235    2.648    1.977    0.048    1.778    1.780
     ##   pa3 =~                                                                
-    ##     bmi               1.000                               0.550    0.551
-    ##     frame_large       0.464    0.067    6.915    0.000    0.255    0.579
-    ##     frame_small      -0.541    0.077   -7.051    0.000   -0.298   -0.670
+    ##     bmi               1.000                               0.532    0.533
+    ##     frame_large       0.483    0.072    6.705    0.000    0.257    0.586
+    ##     frame_small      -0.543    0.080   -6.793    0.000   -0.289   -0.652
     ##   pa4 =~                                                                
-    ##     gender_male       1.000                               0.160    0.325
-    ##     waist_to_hp_rt    6.731    2.702    2.492    0.013    1.077    1.078
+    ##     gender_male       1.000                               0.157    0.320
+    ##     waist_to_hp_rt    6.946    2.881    2.411    0.016    1.094    1.095
     ##   pa5 =~                                                                
-    ##     ratio             1.000                               0.900    0.901
-    ##     chol              0.588    0.105    5.622    0.000    0.529    0.530
+    ##     ratio             1.000                               0.882    0.883
+    ##     chol              0.612    0.106    5.760    0.000    0.539    0.540
     ##   pa6 =~                                                                
     ##     time.ppn          1.000                               0.999    1.000
     ## 
     ## Regressions:
     ##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
     ##   glyhb ~                                                               
-    ##     pa1               0.261    0.049    5.371    0.000    0.260    0.261
-    ##     pa2               0.060    0.062    0.970    0.332    0.020    0.020
-    ##     pa3               0.067    0.127    0.527    0.598    0.037    0.037
-    ##     pa4               0.138    0.291    0.474    0.635    0.022    0.022
-    ##     pa5               0.335    0.088    3.819    0.000    0.302    0.302
-    ##     pa6               0.056    0.046    1.221    0.222    0.056    0.056
+    ##     pa1               0.257    0.049    5.254    0.000    0.256    0.257
+    ##     pa2               0.055    0.061    0.892    0.372    0.019    0.019
+    ##     pa3               0.063    0.134    0.469    0.639    0.033    0.033
+    ##     pa4               0.132    0.290    0.456    0.648    0.021    0.021
+    ##     pa5               0.351    0.090    3.916    0.000    0.310    0.310
+    ##     pa6               0.056    0.046    1.222    0.222    0.056    0.056
     ## 
     ## Covariances:
     ##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
     ##   pa1 ~~                                                                
-    ##     pa2               0.086    0.050    1.742    0.081    0.258    0.258
-    ##     pa3               0.119    0.037    3.203    0.001    0.216    0.216
-    ##     pa4               0.042    0.019    2.227    0.026    0.260    0.260
-    ##     pa5               0.184    0.051    3.598    0.000    0.204    0.204
-    ##     pa6              -0.040    0.051   -0.799    0.424   -0.040   -0.040
+    ##     pa2               0.088    0.050    1.766    0.077    0.259    0.259
+    ##     pa3               0.130    0.037    3.510    0.000    0.244    0.244
+    ##     pa4               0.040    0.019    2.163    0.031    0.256    0.256
+    ##     pa5               0.187    0.051    3.681    0.000    0.213    0.213
+    ##     pa6              -0.039    0.051   -0.778    0.437   -0.039   -0.039
     ##   pa2 ~~                                                                
-    ##     pa3               0.020    0.013    1.553    0.120    0.107    0.107
-    ##     pa4               0.003    0.003    1.250    0.211    0.059    0.059
-    ##     pa5               0.022    0.015    1.467    0.142    0.073    0.073
-    ##     pa6              -0.009    0.010   -0.949    0.343   -0.028   -0.028
+    ##     pa3               0.019    0.012    1.564    0.118    0.108    0.108
+    ##     pa4               0.003    0.003    1.249    0.212    0.059    0.059
+    ##     pa5               0.023    0.015    1.499    0.134    0.077    0.077
+    ##     pa6              -0.008    0.010   -0.840    0.401   -0.024   -0.024
     ##   pa3 ~~                                                                
-    ##     pa4               0.028    0.013    2.171    0.030    0.318    0.318
-    ##     pa5               0.192    0.040    4.759    0.000    0.388    0.388
-    ##     pa6               0.035    0.035    0.987    0.324    0.063    0.063
+    ##     pa4               0.027    0.013    2.113    0.035    0.322    0.322
+    ##     pa5               0.182    0.039    4.618    0.000    0.388    0.388
+    ##     pa6               0.036    0.034    1.062    0.288    0.069    0.069
     ##   pa4 ~~                                                                
-    ##     pa5               0.036    0.017    2.172    0.030    0.250    0.250
-    ##     pa6               0.000    0.007    0.012    0.990    0.001    0.001
+    ##     pa5               0.034    0.016    2.109    0.035    0.248    0.248
+    ##     pa6               0.000    0.007    0.003    0.998    0.000    0.000
     ##   pa5 ~~                                                                
-    ##     pa6              -0.039    0.050   -0.783    0.434   -0.044   -0.044
+    ##     pa6              -0.037    0.050   -0.733    0.464   -0.042   -0.042
     ## 
     ## Variances:
     ##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
     ##    .age               0.000                               0.000    0.000
-    ##    .bp.1d             0.885    0.083   10.624    0.000    0.885    0.887
-    ##    .bp.1s            -2.208    1.552   -1.423    0.155   -2.208   -2.214
-    ##    .bmi               0.695    0.064   10.790    0.000    0.695    0.697
-    ##    .frame_large       0.129    0.013   10.247    0.000    0.129    0.665
-    ##    .frame_small       0.109    0.014    8.060    0.000    0.109    0.552
-    ##    .gender_male       0.217    0.018   11.934    0.000    0.217    0.895
-    ##    .waist_to_hp_rt   -0.161    0.429   -0.377    0.706   -0.161   -0.162
-    ##    .ratio             0.187    0.131    1.425    0.154    0.187    0.188
-    ##    .chol              0.718    0.068   10.494    0.000    0.718    0.719
+    ##    .bp.1d             0.882    0.084   10.560    0.000    0.882    0.884
+    ##    .bp.1s            -2.164    1.506   -1.437    0.151   -2.164   -2.170
+    ##    .bmi               0.714    0.065   10.975    0.000    0.714    0.716
+    ##    .frame_large       0.126    0.013    9.944    0.000    0.126    0.656
+    ##    .frame_small       0.113    0.014    8.366    0.000    0.113    0.575
+    ##    .gender_male       0.218    0.018   11.936    0.000    0.218    0.898
+    ##    .waist_to_hp_rt   -0.199    0.458   -0.435    0.664   -0.199   -0.200
+    ##    .ratio             0.219    0.124    1.771    0.077    0.219    0.220
+    ##    .chol              0.706    0.068   10.337    0.000    0.706    0.708
     ##    .time.ppn          0.000                               0.000    0.000
-    ##    .glyhb             0.780    0.059   13.315    0.000    0.780    0.782
+    ##    .glyhb             0.777    0.059   13.243    0.000    0.777    0.779
     ##     pa1               0.997    0.071   13.964    0.000    1.000    1.000
-    ##     pa2               0.112    0.063    1.773    0.076    1.000    1.000
-    ##     pa3               0.303    0.066    4.616    0.000    1.000    1.000
-    ##     pa4               0.026    0.012    2.090    0.037    1.000    1.000
-    ##     pa5               0.810    0.148    5.465    0.000    1.000    1.000
+    ##     pa2               0.115    0.064    1.802    0.072    1.000    1.000
+    ##     pa3               0.283    0.064    4.423    0.000    1.000    1.000
+    ##     pa4               0.025    0.012    2.035    0.042    1.000    1.000
+    ##     pa5               0.778    0.141    5.508    0.000    1.000    1.000
     ##     pa6               0.997    0.071   13.964    0.000    1.000    1.000
 
 ``` r
@@ -978,105 +1006,105 @@ parameterEstimates(fit1)
     ##                 lhs op              rhs    est    se      z pvalue
     ## 1               pa1 =~              age  1.000 0.000     NA     NA
     ## 2               pa2 =~            bp.1d  1.000 0.000     NA     NA
-    ## 3               pa2 =~            bp.1s  5.344 2.748  1.945  0.052
+    ## 3               pa2 =~            bp.1s  5.235 2.648  1.977  0.048
     ## 4               pa3 =~              bmi  1.000 0.000     NA     NA
-    ## 5               pa3 =~      frame_large  0.464 0.067  6.915  0.000
-    ## 6               pa3 =~      frame_small -0.541 0.077 -7.051  0.000
+    ## 5               pa3 =~      frame_large  0.483 0.072  6.705  0.000
+    ## 6               pa3 =~      frame_small -0.543 0.080 -6.793  0.000
     ## 7               pa4 =~      gender_male  1.000 0.000     NA     NA
-    ## 8               pa4 =~ waist_to_hip_rat  6.731 2.702  2.492  0.013
+    ## 8               pa4 =~ waist_to_hip_rat  6.946 2.881  2.411  0.016
     ## 9               pa5 =~            ratio  1.000 0.000     NA     NA
-    ## 10              pa5 =~             chol  0.588 0.105  5.622  0.000
+    ## 10              pa5 =~             chol  0.612 0.106  5.760  0.000
     ## 11              pa6 =~         time.ppn  1.000 0.000     NA     NA
-    ## 12            glyhb  ~              pa1  0.261 0.049  5.371  0.000
-    ## 13            glyhb  ~              pa2  0.060 0.062  0.970  0.332
-    ## 14            glyhb  ~              pa3  0.067 0.127  0.527  0.598
-    ## 15            glyhb  ~              pa4  0.138 0.291  0.474  0.635
-    ## 16            glyhb  ~              pa5  0.335 0.088  3.819  0.000
-    ## 17            glyhb  ~              pa6  0.056 0.046  1.221  0.222
+    ## 12            glyhb  ~              pa1  0.257 0.049  5.254  0.000
+    ## 13            glyhb  ~              pa2  0.055 0.061  0.892  0.372
+    ## 14            glyhb  ~              pa3  0.063 0.134  0.469  0.639
+    ## 15            glyhb  ~              pa4  0.132 0.290  0.456  0.648
+    ## 16            glyhb  ~              pa5  0.351 0.090  3.916  0.000
+    ## 17            glyhb  ~              pa6  0.056 0.046  1.222  0.222
     ## 18              age ~~              age  0.000 0.000     NA     NA
-    ## 19            bp.1d ~~            bp.1d  0.885 0.083 10.624  0.000
-    ## 20            bp.1s ~~            bp.1s -2.208 1.552 -1.423  0.155
-    ## 21              bmi ~~              bmi  0.695 0.064 10.790  0.000
-    ## 22      frame_large ~~      frame_large  0.129 0.013 10.247  0.000
-    ## 23      frame_small ~~      frame_small  0.109 0.014  8.060  0.000
-    ## 24      gender_male ~~      gender_male  0.217 0.018 11.934  0.000
-    ## 25 waist_to_hip_rat ~~ waist_to_hip_rat -0.161 0.429 -0.377  0.706
-    ## 26            ratio ~~            ratio  0.187 0.131  1.425  0.154
-    ## 27             chol ~~             chol  0.718 0.068 10.494  0.000
+    ## 19            bp.1d ~~            bp.1d  0.882 0.084 10.560  0.000
+    ## 20            bp.1s ~~            bp.1s -2.164 1.506 -1.437  0.151
+    ## 21              bmi ~~              bmi  0.714 0.065 10.975  0.000
+    ## 22      frame_large ~~      frame_large  0.126 0.013  9.944  0.000
+    ## 23      frame_small ~~      frame_small  0.113 0.014  8.366  0.000
+    ## 24      gender_male ~~      gender_male  0.218 0.018 11.936  0.000
+    ## 25 waist_to_hip_rat ~~ waist_to_hip_rat -0.199 0.458 -0.435  0.664
+    ## 26            ratio ~~            ratio  0.219 0.124  1.771  0.077
+    ## 27             chol ~~             chol  0.706 0.068 10.337  0.000
     ## 28         time.ppn ~~         time.ppn  0.000 0.000     NA     NA
-    ## 29            glyhb ~~            glyhb  0.780 0.059 13.315  0.000
+    ## 29            glyhb ~~            glyhb  0.777 0.059 13.243  0.000
     ## 30              pa1 ~~              pa1  0.997 0.071 13.964  0.000
-    ## 31              pa2 ~~              pa2  0.112 0.063  1.773  0.076
-    ## 32              pa3 ~~              pa3  0.303 0.066  4.616  0.000
-    ## 33              pa4 ~~              pa4  0.026 0.012  2.090  0.037
-    ## 34              pa5 ~~              pa5  0.810 0.148  5.465  0.000
+    ## 31              pa2 ~~              pa2  0.115 0.064  1.802  0.072
+    ## 32              pa3 ~~              pa3  0.283 0.064  4.423  0.000
+    ## 33              pa4 ~~              pa4  0.025 0.012  2.035  0.042
+    ## 34              pa5 ~~              pa5  0.778 0.141  5.508  0.000
     ## 35              pa6 ~~              pa6  0.997 0.071 13.964  0.000
-    ## 36              pa1 ~~              pa2  0.086 0.050  1.742  0.081
-    ## 37              pa1 ~~              pa3  0.119 0.037  3.203  0.001
-    ## 38              pa1 ~~              pa4  0.042 0.019  2.227  0.026
-    ## 39              pa1 ~~              pa5  0.184 0.051  3.598  0.000
-    ## 40              pa1 ~~              pa6 -0.040 0.051 -0.799  0.424
-    ## 41              pa2 ~~              pa3  0.020 0.013  1.553  0.120
-    ## 42              pa2 ~~              pa4  0.003 0.003  1.250  0.211
-    ## 43              pa2 ~~              pa5  0.022 0.015  1.467  0.142
-    ## 44              pa2 ~~              pa6 -0.009 0.010 -0.949  0.343
-    ## 45              pa3 ~~              pa4  0.028 0.013  2.171  0.030
-    ## 46              pa3 ~~              pa5  0.192 0.040  4.759  0.000
-    ## 47              pa3 ~~              pa6  0.035 0.035  0.987  0.324
-    ## 48              pa4 ~~              pa5  0.036 0.017  2.172  0.030
-    ## 49              pa4 ~~              pa6  0.000 0.007  0.012  0.990
-    ## 50              pa5 ~~              pa6 -0.039 0.050 -0.783  0.434
+    ## 36              pa1 ~~              pa2  0.088 0.050  1.766  0.077
+    ## 37              pa1 ~~              pa3  0.130 0.037  3.510  0.000
+    ## 38              pa1 ~~              pa4  0.040 0.019  2.163  0.031
+    ## 39              pa1 ~~              pa5  0.187 0.051  3.681  0.000
+    ## 40              pa1 ~~              pa6 -0.039 0.051 -0.778  0.437
+    ## 41              pa2 ~~              pa3  0.019 0.012  1.564  0.118
+    ## 42              pa2 ~~              pa4  0.003 0.003  1.249  0.212
+    ## 43              pa2 ~~              pa5  0.023 0.015  1.499  0.134
+    ## 44              pa2 ~~              pa6 -0.008 0.010 -0.840  0.401
+    ## 45              pa3 ~~              pa4  0.027 0.013  2.113  0.035
+    ## 46              pa3 ~~              pa5  0.182 0.039  4.618  0.000
+    ## 47              pa3 ~~              pa6  0.036 0.034  1.062  0.288
+    ## 48              pa4 ~~              pa5  0.034 0.016  2.109  0.035
+    ## 49              pa4 ~~              pa6  0.000 0.007  0.003  0.998
+    ## 50              pa5 ~~              pa6 -0.037 0.050 -0.733  0.464
     ##    ci.lower ci.upper
     ## 1     1.000    1.000
     ## 2     1.000    1.000
-    ## 3    -0.042   10.729
+    ## 3     0.046   10.425
     ## 4     1.000    1.000
-    ## 5     0.332    0.596
-    ## 6    -0.692   -0.391
+    ## 5     0.341    0.624
+    ## 6    -0.700   -0.386
     ## 7     1.000    1.000
-    ## 8     1.436   12.026
+    ## 8     1.300   12.592
     ## 9     1.000    1.000
-    ## 10    0.383    0.793
+    ## 10    0.403    0.820
     ## 11    1.000    1.000
-    ## 12    0.165    0.356
-    ## 13   -0.061    0.180
-    ## 14   -0.182    0.316
-    ## 15   -0.432    0.707
-    ## 16    0.163    0.507
+    ## 12    0.161    0.353
+    ## 13   -0.065    0.174
+    ## 14   -0.199    0.325
+    ## 15   -0.436    0.700
+    ## 16    0.175    0.527
     ## 17   -0.034    0.146
     ## 18    0.000    0.000
-    ## 19    0.722    1.048
-    ## 20   -5.250    0.834
-    ## 21    0.569    0.821
-    ## 22    0.104    0.154
-    ## 23    0.083    0.136
-    ## 24    0.182    0.253
-    ## 25   -1.001    0.678
-    ## 26   -0.070    0.444
-    ## 27    0.584    0.852
+    ## 19    0.718    1.046
+    ## 20   -5.116    0.787
+    ## 21    0.587    0.842
+    ## 22    0.101    0.151
+    ## 23    0.087    0.140
+    ## 24    0.182    0.254
+    ## 25   -1.096    0.698
+    ## 26   -0.023    0.462
+    ## 27    0.573    0.840
     ## 28    0.000    0.000
-    ## 29    0.665    0.895
+    ## 29    0.662    0.892
     ## 30    0.857    1.137
-    ## 31   -0.012    0.236
-    ## 32    0.174    0.431
-    ## 33    0.002    0.050
-    ## 34    0.520    1.101
+    ## 31   -0.010    0.241
+    ## 32    0.158    0.409
+    ## 33    0.001    0.049
+    ## 34    0.501    1.055
     ## 35    0.857    1.137
-    ## 36   -0.011    0.184
-    ## 37    0.046    0.192
-    ## 38    0.005    0.078
-    ## 39    0.084    0.284
-    ## 40   -0.139    0.059
-    ## 41   -0.005    0.045
+    ## 36   -0.010    0.186
+    ## 37    0.057    0.203
+    ## 38    0.004    0.077
+    ## 39    0.088    0.287
+    ## 40   -0.138    0.060
+    ## 41   -0.005    0.044
     ## 42   -0.002    0.008
-    ## 43   -0.007    0.051
-    ## 44   -0.029    0.010
-    ## 45    0.003    0.053
-    ## 46    0.113    0.271
-    ## 47   -0.034    0.103
-    ## 48    0.004    0.068
-    ## 49   -0.015    0.015
-    ## 50   -0.138    0.059
+    ## 43   -0.007    0.053
+    ## 44   -0.027    0.011
+    ## 45    0.002    0.052
+    ## 46    0.105    0.260
+    ## 47   -0.031    0.104
+    ## 48    0.002    0.067
+    ## 49   -0.014    0.014
+    ## 50   -0.135    0.061
 
 ``` r
 # Second SEM model
@@ -1099,7 +1127,7 @@ fit2
     ##   Number of observations                           390
     ## 
     ##   Estimator                                         ML
-    ##   Model Fit Test Statistic                       7.285
+    ##   Model Fit Test Statistic                       7.350
     ##   Degrees of freedom                                 1
     ##   P-value (Chi-square)                           0.007
 
@@ -1121,40 +1149,40 @@ summary(fit2, standardized = TRUE, fit.measures = TRUE)
     ##   Number of observations                           390
     ## 
     ##   Estimator                                         ML
-    ##   Model Fit Test Statistic                       7.285
+    ##   Model Fit Test Statistic                       7.350
     ##   Degrees of freedom                                 1
     ##   P-value (Chi-square)                           0.007
     ## 
     ## Model test baseline model:
     ## 
-    ##   Minimum Function Test Statistic              210.835
+    ##   Minimum Function Test Statistic              210.710
     ##   Degrees of freedom                                 6
     ##   P-value                                        0.000
     ## 
     ## User model versus baseline model:
     ## 
     ##   Comparative Fit Index (CFI)                    0.969
-    ##   Tucker-Lewis Index (TLI)                       0.816
+    ##   Tucker-Lewis Index (TLI)                       0.814
     ## 
     ## Loglikelihood and Information Criteria:
     ## 
-    ##   Loglikelihood user model (H0)              -2109.766
-    ##   Loglikelihood unrestricted model (H1)      -2106.124
+    ##   Loglikelihood user model (H0)              -2109.862
+    ##   Loglikelihood unrestricted model (H1)      -2106.186
     ## 
     ##   Number of free parameters                          9
-    ##   Akaike (AIC)                                4237.533
-    ##   Bayesian (BIC)                              4273.228
-    ##   Sample-size adjusted Bayesian (BIC)         4244.672
+    ##   Akaike (AIC)                                4237.723
+    ##   Bayesian (BIC)                              4273.418
+    ##   Sample-size adjusted Bayesian (BIC)         4244.862
     ## 
     ## Root Mean Square Error of Approximation:
     ## 
-    ##   RMSEA                                          0.127
-    ##   90 Percent Confidence Interval          0.053  0.220
-    ##   P-value RMSEA <= 0.05                          0.044
+    ##   RMSEA                                          0.128
+    ##   90 Percent Confidence Interval          0.054  0.221
+    ##   P-value RMSEA <= 0.05                          0.042
     ## 
     ## Standardized Root Mean Square Residual:
     ## 
-    ##   SRMR                                           0.026
+    ##   SRMR                                           0.027
     ## 
     ## Parameter Estimates:
     ## 
@@ -1168,27 +1196,27 @@ summary(fit2, standardized = TRUE, fit.measures = TRUE)
     ##     age               1.000                               0.999    1.000
     ##   pa5 =~                                                                
     ##     ratio             1.000                               0.733    0.734
-    ##     chol              0.886    0.149    5.941    0.000    0.649    0.650
+    ##     chol              0.885    0.149    5.938    0.000    0.649    0.650
     ## 
     ## Regressions:
     ##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
     ##   glyhb ~                                                               
-    ##     pa1               0.238    0.050    4.792    0.000    0.238    0.238
-    ##     pa5               0.485    0.099    4.906    0.000    0.355    0.356
+    ##     pa1               0.238    0.050    4.789    0.000    0.238    0.238
+    ##     pa5               0.485    0.099    4.903    0.000    0.355    0.356
     ## 
     ## Covariances:
     ##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
     ##   pa1 ~~                                                                
-    ##     pa5               0.207    0.049    4.234    0.000    0.283    0.283
+    ##     pa5               0.207    0.049    4.237    0.000    0.283    0.283
     ## 
     ## Variances:
     ##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
     ##    .age               0.000                               0.000    0.000
-    ##    .ratio             0.460    0.092    4.988    0.000    0.460    0.461
-    ##    .chol              0.576    0.079    7.277    0.000    0.576    0.577
-    ##    .glyhb             0.767    0.060   12.772    0.000    0.767    0.769
+    ##    .ratio             0.460    0.092    4.991    0.000    0.460    0.461
+    ##    .chol              0.576    0.079    7.283    0.000    0.576    0.578
+    ##    .glyhb             0.767    0.060   12.771    0.000    0.767    0.769
     ##     pa1               0.997    0.071   13.964    0.000    1.000    1.000
-    ##     pa5               0.538    0.107    5.030    0.000    1.000    1.000
+    ##     pa5               0.537    0.107    5.027    0.000    1.000    1.000
 
 ``` r
 parameterEstimates(fit1)
@@ -1197,102 +1225,102 @@ parameterEstimates(fit1)
     ##                 lhs op              rhs    est    se      z pvalue
     ## 1               pa1 =~              age  1.000 0.000     NA     NA
     ## 2               pa2 =~            bp.1d  1.000 0.000     NA     NA
-    ## 3               pa2 =~            bp.1s  5.344 2.748  1.945  0.052
+    ## 3               pa2 =~            bp.1s  5.235 2.648  1.977  0.048
     ## 4               pa3 =~              bmi  1.000 0.000     NA     NA
-    ## 5               pa3 =~      frame_large  0.464 0.067  6.915  0.000
-    ## 6               pa3 =~      frame_small -0.541 0.077 -7.051  0.000
+    ## 5               pa3 =~      frame_large  0.483 0.072  6.705  0.000
+    ## 6               pa3 =~      frame_small -0.543 0.080 -6.793  0.000
     ## 7               pa4 =~      gender_male  1.000 0.000     NA     NA
-    ## 8               pa4 =~ waist_to_hip_rat  6.731 2.702  2.492  0.013
+    ## 8               pa4 =~ waist_to_hip_rat  6.946 2.881  2.411  0.016
     ## 9               pa5 =~            ratio  1.000 0.000     NA     NA
-    ## 10              pa5 =~             chol  0.588 0.105  5.622  0.000
+    ## 10              pa5 =~             chol  0.612 0.106  5.760  0.000
     ## 11              pa6 =~         time.ppn  1.000 0.000     NA     NA
-    ## 12            glyhb  ~              pa1  0.261 0.049  5.371  0.000
-    ## 13            glyhb  ~              pa2  0.060 0.062  0.970  0.332
-    ## 14            glyhb  ~              pa3  0.067 0.127  0.527  0.598
-    ## 15            glyhb  ~              pa4  0.138 0.291  0.474  0.635
-    ## 16            glyhb  ~              pa5  0.335 0.088  3.819  0.000
-    ## 17            glyhb  ~              pa6  0.056 0.046  1.221  0.222
+    ## 12            glyhb  ~              pa1  0.257 0.049  5.254  0.000
+    ## 13            glyhb  ~              pa2  0.055 0.061  0.892  0.372
+    ## 14            glyhb  ~              pa3  0.063 0.134  0.469  0.639
+    ## 15            glyhb  ~              pa4  0.132 0.290  0.456  0.648
+    ## 16            glyhb  ~              pa5  0.351 0.090  3.916  0.000
+    ## 17            glyhb  ~              pa6  0.056 0.046  1.222  0.222
     ## 18              age ~~              age  0.000 0.000     NA     NA
-    ## 19            bp.1d ~~            bp.1d  0.885 0.083 10.624  0.000
-    ## 20            bp.1s ~~            bp.1s -2.208 1.552 -1.423  0.155
-    ## 21              bmi ~~              bmi  0.695 0.064 10.790  0.000
-    ## 22      frame_large ~~      frame_large  0.129 0.013 10.247  0.000
-    ## 23      frame_small ~~      frame_small  0.109 0.014  8.060  0.000
-    ## 24      gender_male ~~      gender_male  0.217 0.018 11.934  0.000
-    ## 25 waist_to_hip_rat ~~ waist_to_hip_rat -0.161 0.429 -0.377  0.706
-    ## 26            ratio ~~            ratio  0.187 0.131  1.425  0.154
-    ## 27             chol ~~             chol  0.718 0.068 10.494  0.000
+    ## 19            bp.1d ~~            bp.1d  0.882 0.084 10.560  0.000
+    ## 20            bp.1s ~~            bp.1s -2.164 1.506 -1.437  0.151
+    ## 21              bmi ~~              bmi  0.714 0.065 10.975  0.000
+    ## 22      frame_large ~~      frame_large  0.126 0.013  9.944  0.000
+    ## 23      frame_small ~~      frame_small  0.113 0.014  8.366  0.000
+    ## 24      gender_male ~~      gender_male  0.218 0.018 11.936  0.000
+    ## 25 waist_to_hip_rat ~~ waist_to_hip_rat -0.199 0.458 -0.435  0.664
+    ## 26            ratio ~~            ratio  0.219 0.124  1.771  0.077
+    ## 27             chol ~~             chol  0.706 0.068 10.337  0.000
     ## 28         time.ppn ~~         time.ppn  0.000 0.000     NA     NA
-    ## 29            glyhb ~~            glyhb  0.780 0.059 13.315  0.000
+    ## 29            glyhb ~~            glyhb  0.777 0.059 13.243  0.000
     ## 30              pa1 ~~              pa1  0.997 0.071 13.964  0.000
-    ## 31              pa2 ~~              pa2  0.112 0.063  1.773  0.076
-    ## 32              pa3 ~~              pa3  0.303 0.066  4.616  0.000
-    ## 33              pa4 ~~              pa4  0.026 0.012  2.090  0.037
-    ## 34              pa5 ~~              pa5  0.810 0.148  5.465  0.000
+    ## 31              pa2 ~~              pa2  0.115 0.064  1.802  0.072
+    ## 32              pa3 ~~              pa3  0.283 0.064  4.423  0.000
+    ## 33              pa4 ~~              pa4  0.025 0.012  2.035  0.042
+    ## 34              pa5 ~~              pa5  0.778 0.141  5.508  0.000
     ## 35              pa6 ~~              pa6  0.997 0.071 13.964  0.000
-    ## 36              pa1 ~~              pa2  0.086 0.050  1.742  0.081
-    ## 37              pa1 ~~              pa3  0.119 0.037  3.203  0.001
-    ## 38              pa1 ~~              pa4  0.042 0.019  2.227  0.026
-    ## 39              pa1 ~~              pa5  0.184 0.051  3.598  0.000
-    ## 40              pa1 ~~              pa6 -0.040 0.051 -0.799  0.424
-    ## 41              pa2 ~~              pa3  0.020 0.013  1.553  0.120
-    ## 42              pa2 ~~              pa4  0.003 0.003  1.250  0.211
-    ## 43              pa2 ~~              pa5  0.022 0.015  1.467  0.142
-    ## 44              pa2 ~~              pa6 -0.009 0.010 -0.949  0.343
-    ## 45              pa3 ~~              pa4  0.028 0.013  2.171  0.030
-    ## 46              pa3 ~~              pa5  0.192 0.040  4.759  0.000
-    ## 47              pa3 ~~              pa6  0.035 0.035  0.987  0.324
-    ## 48              pa4 ~~              pa5  0.036 0.017  2.172  0.030
-    ## 49              pa4 ~~              pa6  0.000 0.007  0.012  0.990
-    ## 50              pa5 ~~              pa6 -0.039 0.050 -0.783  0.434
+    ## 36              pa1 ~~              pa2  0.088 0.050  1.766  0.077
+    ## 37              pa1 ~~              pa3  0.130 0.037  3.510  0.000
+    ## 38              pa1 ~~              pa4  0.040 0.019  2.163  0.031
+    ## 39              pa1 ~~              pa5  0.187 0.051  3.681  0.000
+    ## 40              pa1 ~~              pa6 -0.039 0.051 -0.778  0.437
+    ## 41              pa2 ~~              pa3  0.019 0.012  1.564  0.118
+    ## 42              pa2 ~~              pa4  0.003 0.003  1.249  0.212
+    ## 43              pa2 ~~              pa5  0.023 0.015  1.499  0.134
+    ## 44              pa2 ~~              pa6 -0.008 0.010 -0.840  0.401
+    ## 45              pa3 ~~              pa4  0.027 0.013  2.113  0.035
+    ## 46              pa3 ~~              pa5  0.182 0.039  4.618  0.000
+    ## 47              pa3 ~~              pa6  0.036 0.034  1.062  0.288
+    ## 48              pa4 ~~              pa5  0.034 0.016  2.109  0.035
+    ## 49              pa4 ~~              pa6  0.000 0.007  0.003  0.998
+    ## 50              pa5 ~~              pa6 -0.037 0.050 -0.733  0.464
     ##    ci.lower ci.upper
     ## 1     1.000    1.000
     ## 2     1.000    1.000
-    ## 3    -0.042   10.729
+    ## 3     0.046   10.425
     ## 4     1.000    1.000
-    ## 5     0.332    0.596
-    ## 6    -0.692   -0.391
+    ## 5     0.341    0.624
+    ## 6    -0.700   -0.386
     ## 7     1.000    1.000
-    ## 8     1.436   12.026
+    ## 8     1.300   12.592
     ## 9     1.000    1.000
-    ## 10    0.383    0.793
+    ## 10    0.403    0.820
     ## 11    1.000    1.000
-    ## 12    0.165    0.356
-    ## 13   -0.061    0.180
-    ## 14   -0.182    0.316
-    ## 15   -0.432    0.707
-    ## 16    0.163    0.507
+    ## 12    0.161    0.353
+    ## 13   -0.065    0.174
+    ## 14   -0.199    0.325
+    ## 15   -0.436    0.700
+    ## 16    0.175    0.527
     ## 17   -0.034    0.146
     ## 18    0.000    0.000
-    ## 19    0.722    1.048
-    ## 20   -5.250    0.834
-    ## 21    0.569    0.821
-    ## 22    0.104    0.154
-    ## 23    0.083    0.136
-    ## 24    0.182    0.253
-    ## 25   -1.001    0.678
-    ## 26   -0.070    0.444
-    ## 27    0.584    0.852
+    ## 19    0.718    1.046
+    ## 20   -5.116    0.787
+    ## 21    0.587    0.842
+    ## 22    0.101    0.151
+    ## 23    0.087    0.140
+    ## 24    0.182    0.254
+    ## 25   -1.096    0.698
+    ## 26   -0.023    0.462
+    ## 27    0.573    0.840
     ## 28    0.000    0.000
-    ## 29    0.665    0.895
+    ## 29    0.662    0.892
     ## 30    0.857    1.137
-    ## 31   -0.012    0.236
-    ## 32    0.174    0.431
-    ## 33    0.002    0.050
-    ## 34    0.520    1.101
+    ## 31   -0.010    0.241
+    ## 32    0.158    0.409
+    ## 33    0.001    0.049
+    ## 34    0.501    1.055
     ## 35    0.857    1.137
-    ## 36   -0.011    0.184
-    ## 37    0.046    0.192
-    ## 38    0.005    0.078
-    ## 39    0.084    0.284
-    ## 40   -0.139    0.059
-    ## 41   -0.005    0.045
+    ## 36   -0.010    0.186
+    ## 37    0.057    0.203
+    ## 38    0.004    0.077
+    ## 39    0.088    0.287
+    ## 40   -0.138    0.060
+    ## 41   -0.005    0.044
     ## 42   -0.002    0.008
-    ## 43   -0.007    0.051
-    ## 44   -0.029    0.010
-    ## 45    0.003    0.053
-    ## 46    0.113    0.271
-    ## 47   -0.034    0.103
-    ## 48    0.004    0.068
-    ## 49   -0.015    0.015
-    ## 50   -0.138    0.059
+    ## 43   -0.007    0.053
+    ## 44   -0.027    0.011
+    ## 45    0.002    0.052
+    ## 46    0.105    0.260
+    ## 47   -0.031    0.104
+    ## 48    0.002    0.067
+    ## 49   -0.014    0.014
+    ## 50   -0.135    0.061

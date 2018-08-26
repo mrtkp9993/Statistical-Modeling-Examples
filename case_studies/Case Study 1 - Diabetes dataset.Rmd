@@ -15,9 +15,11 @@ library(dplyr)
 library(fastDummies)
 library(GGally)
 library(lavaan)
+library(loo)
 library(magrittr)
 library(mice)
 library(psych)
+library(rstanarm)
 library(semPlot)
 ```
 
@@ -173,7 +175,7 @@ fl
 
 ```{r}
 # Let's start to build models
-model1 <- glm('glyhb ~ .', data = diabetes_completed_subset)
+model1 <- stan_glm('glyhb ~ .', data = diabetes_completed_subset)
 model1
 summary(model1)
 ```
@@ -185,7 +187,7 @@ plot(model1)
 
 ```{r}
 model2 <-
-  glm('glyhb ~  ratio + age', data = diabetes_completed_subset)
+  stan_glm('glyhb ~  ratio + age', data = diabetes_completed_subset)
 model2
 summary(model2)
 
@@ -195,7 +197,7 @@ plot(model2)
 
 ```{r}
 model3 <-
-  glm('glyhb ~ bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+  stan_glm('glyhb ~ bmi + waist_to_hip_rat', data = diabetes_completed_subset)
 model3
 summary(model3)
 
@@ -205,7 +207,7 @@ plot(model3)
 
 ```{r}
 model4 <-
-  glm('glyhb ~ ratio + age + bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+  stan_glm('glyhb ~ ratio + age + bmi + waist_to_hip_rat', data = diabetes_completed_subset)
 model4
 summary(model4)
 
@@ -215,7 +217,7 @@ plot(model4)
 
 ```{r}
 model5 <-
-  glm('glyhb ~ ratio + age + bmi', data = diabetes_completed_subset)
+  stan_glm('glyhb ~ ratio + age + bmi', data = diabetes_completed_subset)
 model5
 summary(model5)
 
@@ -226,8 +228,7 @@ plot(model5)
 ```{r}
 ic <- data.frame(
   Model = c("model1", "model2", "model3", "model4", "model5"),
-  AIC = c(AIC(model1), AIC(model2), AIC(model3), AIC(model4), AIC(model5)),
-  BIC = c(BIC(model1), BIC(model2), BIC(model3), BIC(model4), BIC(model5)),
+  WAIC = c(waic(model1)$estimates[3,1], waic(model2)$estimates[3,1], waic(model3)$estimates[3,1], waic(model4)$estimates[3,1], waic(model5)$estimates[3,1]),
   stringsAsFactors = FALSE
 )
 ic
