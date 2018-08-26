@@ -1,0 +1,289 @@
+---
+title: "Case Study 1 - Diabetes dataset"
+author: "Murat Koptur"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  rmarkdown::github_document: default
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(fig.path='figures/cs1-')
+```
+
+```{r}
+library(dplyr)
+library(fastDummies)
+library(GGally)
+library(lavaan)
+library(magrittr)
+library(mice)
+library(psych)
+library(semPlot)
+```
+
+```{r}
+# http://biostat.mc.vanderbilt.edu/wiki/Main/DataSets
+load("./data/diabetes.sav")
+```
+
+```{r}
+str(diabetes)
+```
+
+```{r}
+# I'll not use location in this analysis
+diabetes <- select(diabetes, -location, -id)
+```
+
+```{r}
+# Let's look at summary of data
+summary(diabetes)
+```
+
+```{r}
+# Investigate NA counts
+colSums(is.na(diabetes))
+```
+
+```{r}
+# bp.2s and bp.2d variables has too much missing values
+
+# Glycosolated hemoglobin (glyhb) column has 13 NAs
+# I'll drop these observations
+diabetes <- filter(diabetes, !is.na(glyhb))
+```
+
+```{r}
+# impute 
+md.pattern(diabetes)
+```
+
+```{r results='hide'}
+diabetes_imp <-
+  mice(
+    data = diabetes,
+    m = 5,
+    maxit = 50,
+    method = "pmm"
+  )
+```
+
+```{r}
+# Take first imputed dataset (we have 5 imputed datasets, m=5)
+diabetes_completed <- complete(diabetes_imp, 1)
+# Investigate NA counts again
+colSums(is.na(diabetes_completed))
+```
+
+```{r}
+# correlation analysis
+ggcorr(diabetes_completed, label = TRUE, label_alpha = .7)
+```
+
+```{r}
+corr_table <-
+  cor(diabetes_completed[, sapply(diabetes_completed, is.numeric)])
+subset(as.data.frame(as.table(corr_table)), abs(Freq) > 0.5)
+```
+
+```{r}
+# since bp.2d and bp.2s seems highly correlated with bp.1d and bp.1s and 
+# they have a lot of missing values, I decided to discard them from analysis 
+
+# also, I'll create two new variables,
+# BMI (body mass index) and waist-to-hip ratio
+
+diabetes_completed$bmi <-
+  (diabetes_completed$weight / (diabetes_completed$height ** 2) * 703)
+diabetes_completed$waist_to_hip_rat <-
+  diabetes_completed$waist / diabetes_completed$hip
+
+# take a subset of uncorrelated variables
+diabetes_completed_subset <- select(
+  diabetes_completed,
+  chol,
+  ratio,
+  glyhb,
+  age,
+  gender,
+  bmi,
+  waist_to_hip_rat,
+  frame,
+  bp.1s,
+  bp.1d,
+  time.ppn
+)
+head(diabetes_completed_subset)
+```
+
+```{r}
+# pairs plot
+ggpairs(diabetes_completed_subset)
+```
+
+```{r}
+# standardize all variables
+diabetes_completed_subset %<>%
+  mutate_at(
+    funs(scale),
+    .vars = c(
+      "chol",
+      "ratio",
+      "glyhb",
+      "age",
+      "bmi",
+      "waist_to_hip_rat",
+      "bp.1s",
+      "bp.1d",
+      "time.ppn"
+    )
+  )
+```
+
+```{r}
+# Create dummy variables for gender and frame
+library(fastDummies)
+diabetes_completed_subset <-
+  dummy_cols(diabetes_completed_subset, remove_first_dummy = TRUE)
+diabetes_completed_subset <-
+  select(diabetes_completed_subset,-gender,-frame)
+head(diabetes_completed_subset)
+```
+
+```{r}
+# Explonatory Factor analysis
+fa.parallel(select(diabetes_completed_subset,-glyhb))
+```
+
+```{r}
+diabetes_completed_subset_fi <-
+  fa(
+    select(diabetes_completed_subset,-glyhb),
+    nfactors = 6,
+    fm = "pa",
+    max.iter = 200
+  )
+fa.diagram(diabetes_completed_subset_fi)
+```
+
+```{r}
+fl <- round(unclass(diabetes_completed_subset_fi$loadings), 2)
+fl
+```
+
+```{r}
+# Let's start to build models
+model1 <- glm('glyhb ~ .', data = diabetes_completed_subset)
+model1
+summary(model1)
+```
+
+```{r}
+par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
+plot(model1)
+```
+
+```{r}
+model2 <-
+  glm('glyhb ~  ratio + age', data = diabetes_completed_subset)
+model2
+summary(model2)
+
+par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
+plot(model2)
+```
+
+```{r}
+model3 <-
+  glm('glyhb ~ bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+model3
+summary(model3)
+
+par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
+plot(model3)
+```
+
+```{r}
+model4 <-
+  glm('glyhb ~ ratio + age + bmi + waist_to_hip_rat', data = diabetes_completed_subset)
+model4
+summary(model4)
+
+par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
+plot(model4)
+```
+
+```{r}
+model5 <-
+  glm('glyhb ~ ratio + age + bmi', data = diabetes_completed_subset)
+model5
+summary(model5)
+
+par(mfrow = c(2, 2), mar = c(3, 5, 3, 3))
+plot(model5)
+```
+
+```{r}
+ic <- data.frame(
+  Model = c("model1", "model2", "model3", "model4", "model5"),
+  AIC = c(AIC(model1), AIC(model2), AIC(model3), AIC(model4), AIC(model5)),
+  BIC = c(BIC(model1), BIC(model2), BIC(model3), BIC(model4), BIC(model5)),
+  stringsAsFactors = FALSE
+)
+ic
+```
+
+```{r}
+# Let's build a SEM model
+library(lavaan)
+semModel1 <- '
+pa1 =~ age
+pa2 =~ bp.1d + bp.1s
+pa3 =~ bmi + frame_large + frame_small
+pa4 =~ gender_male + waist_to_hip_rat
+pa5 =~ ratio + chol
+pa6 =~ time.ppn
+
+glyhb ~ pa1 + pa2 + pa3 + pa4 + pa5 + pa6
+'
+fit1 <- sem(semModel1,
+            data = diabetes_completed_subset)
+fit1
+```
+
+```{r}
+semPaths(fit1)
+```
+
+```{r}
+summary(fit1, standardized = TRUE, fit.measures = TRUE)
+```
+
+```{r}
+parameterEstimates(fit1)
+```
+
+```{r}
+# Second SEM model
+semModel2 <- '
+pa1 =~ age
+pa5 =~ ratio + chol
+
+glyhb ~ pa1 + pa5
+'
+fit2 <- sem(semModel2,
+            data = diabetes_completed_subset)
+fit2
+```
+
+```{r}
+semPaths(fit2)
+```
+
+```{r}
+summary(fit2, standardized = TRUE, fit.measures = TRUE)
+```
+
+```{r}
+parameterEstimates(fit1)
+```
