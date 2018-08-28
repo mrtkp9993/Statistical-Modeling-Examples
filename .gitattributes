@@ -1,5 +1,5 @@
 ci/* linguist-vendored
 data/* linguist-vendored
-*.ipynb linguist-language=Stan
-*.py linguist-language=Stan
-*.rmd linguist-language=Stan
+*.ipynb linguist-language=R
+*.py linguist-language=R
+*.rmd linguist-language=R
