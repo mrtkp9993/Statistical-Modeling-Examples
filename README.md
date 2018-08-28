@@ -48,10 +48,6 @@ R examples includes these methods:
 * Stan example models [Link](https://github.com/stan-dev/example-models/tree/master/misc).
 * Prior choices [Link](https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations).
 
-### PyMC3
-
-* Salvatier J, Wiecki TV, Fonnesbeck C. (2016) Probabilistic programming in Python using PyMC3. PeerJ Computer Science 2:e55 https://doi.org/10.7717/peerj-cs.55 [Link](https://peerj.com/articles/cs-55/).
-
 ### R
 
 * R-bloggers [Link](https://www.r-bloggers.com/).
