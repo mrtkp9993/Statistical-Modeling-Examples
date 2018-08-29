@@ -1,4 +1,4 @@
-# Statistical Modelling Examples
+# Statistical Modeling Examples
 
 <p align="right">All we need is just</p>
 <img align="right" src="bayes.png" width="200px">
