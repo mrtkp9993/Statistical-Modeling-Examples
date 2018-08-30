@@ -41,6 +41,7 @@ R examples includes these methods:
 * Glossary of statistical terms [Link](https://www.stat.berkeley.edu/~stark/SticiGui/Text/gloss.htm).
 * Statistical tests with Python [Link](https://machinelearningmastery.com/statistical-hypothesis-tests-in-python-cheat-sheet/).
 * Michael Betancourt: “A Conceptual Introduction to Hamiltonian Monte Carlo”, 2017; arXiv:1701.02434.
+* Hamiltonian Monte Carlo explained, [Link](http://arogozhnikov.github.io/2016/12/19/markov_chain_monte_carlo.html).
 
 ### Stan
 
