@@ -24,7 +24,7 @@ model {
   alpha ~ normal(0, 10);
   beta ~ student_t(1,0,2.5); // weakly informative priors
   for (n in 1:N_train)
-    y_train[n] ~ bernoulli_logit(inv_logit(x_train[n] * beta + alpha));
+    y_train[n] ~ bernoulli_logit(x_train[n] * beta + alpha);
 }
 
 generated quantities {
