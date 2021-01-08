@@ -4,6 +4,7 @@
 <img align="right" src="bayes.png" width="200px">
 
 [![GitHub license](https://img.shields.io/github/license/mrtkp9993/Statistical-Modelling-Examples.svg)](https://github.com/mrtkp9993/Statistical-Modelling-Examples/blob/master/LICENSE)
+[![DOI](https://zenodo.org/badge/143592387.svg)](https://zenodo.org/badge/latestdoi/143592387)
 
 ---
 
